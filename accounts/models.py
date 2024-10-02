@@ -41,6 +41,7 @@ class CustomUser(AbstractUser):
 
     # A link to the user model's manager
     objects = CustomBaseManager()
+    email = models.EmailField(unique=True)
     full_name = models.CharField(max_length=255)
     phone_number =  models.CharField(max_length=10, unique=True)
     age = models.PositiveIntegerField(null=True)
