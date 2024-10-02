@@ -20,5 +20,6 @@ class UserRegistrationPermission(BasePermission):
                 return new_user_role == 'STORE_STAFF'
             else:
                 return False
+            
     
         

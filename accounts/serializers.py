@@ -15,10 +15,17 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         return data
     # The above checks whether the two passwords entered are the same.
     def create(self, validated_data):
-        validated_data.pop('password')
-        validated_data['password'] = validated_data.pop('confirm_password')
+        validated_data.pop('confirm_password')
+        created_by = self.context['request'].user
         user = CustomUser.objects.create_user(**validated_data)
+        user.created_by = created_by
         return user
+
+class UserListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomUser
+        fields = ("id", "full_name", "username", "email", "phone_number","role", "created_by")
+        
 
 class UserProfileSerializer(serializers.ModelSerializer):
     user = UserRegistrationSerializer(read_only = True)
