@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     # Local Applications
     'accounts.apps.AccountsConfig',
     'storages.apps.StoragesConfig',
+    'products.apps.ProductsConfig',
     # Third-Party Applications
     'rest_framework',
     'rest_framework_simplejwt',
