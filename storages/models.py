@@ -7,11 +7,17 @@ class Warehouse(models.Model):
     phone = models.CharField(max_length=15, blank=True, null=True)
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name='warehouses_created')
 
+    def __str__(self):
+        return self.name
+
 class Store(models.Model):
     name = models.CharField(max_length=255, unique=True)
     location = models.CharField(max_length=255)
     phone = models.CharField(max_length=15, blank=True, null=True)
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name='stores_created')
+
+    def __str__(self):
+        return self.name
 
 class Supplier(models.Model):
     name = models.CharField(max_length=255, unique=True)
@@ -20,3 +26,6 @@ class Supplier(models.Model):
     address = models.CharField(max_length=255)
     website = models.URLField(blank=True, null=True)
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name='suppliers_created')
+
+    def __str__(self):
+        return self.name

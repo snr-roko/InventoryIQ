@@ -1,6 +1,11 @@
 from rest_framework import serializers
-from .models import WarehouseStock, StoreStock, Product
+from .models import WarehouseStock, StoreStock, Product, ProductCategory
 
+class ProductCategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProductCategory
+        fields = "__all__"
+        read_only_fields = ("created_by",)
 
 class WarehouseStockSerializer(serializers.ModelSerializer):
     class Meta:
@@ -14,8 +19,8 @@ class StoreStockSerializer(serializers.ModelSerializer):
         fields = "__all__"
         read_only_fields = ("quantity", "created_by")
 
-class ProductSeralizer(serializers.ModelSerializer):
+class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = "__all__"
-        read_only_fields = ("quantity", "created_by")
+        read_only_fields = ("quantity",)

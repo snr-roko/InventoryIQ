@@ -1,4 +1,4 @@
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 from .models import WarehouseStock, StoreStock, Product
 from django.db.models import Sum
@@ -40,6 +40,36 @@ def create_update_product(sender, instance, created, **kwargs):
 
     # we set the quantity field to the total quantity regardless of whether created or found to update quantity field
     product.quantity = calculate_storage_quantity(stock_code)
+    product.active = True
     product.save()
+
+
+@receiver(post_delete, sender=WarehouseStock)
+@receiver(post_delete, sender=StoreStock)
+def update_delete_product(sender, instance, **kwargs):
+    """
+    This is a signal to automatically recalculate product quantity whenever a warehouse stock or store stock is deleted
+    When the product quantity recalculated is zero, the product is also deleted
+    """
+    stock_code = instance.stock_code
+
+    # we try finding the product
+    try:
+        product = Product.objects.get(product_code=stock_code)
+        # we calculate the total quantity across storages
+        total_quantity = calculate_storage_quantity(stock_code)
+        # if total quantity is zero, we deactivate the product
+        if total_quantity == 0:
+            product.deactivate()
+        # if the total quantity is still more than zero, meaning other storages have stock
+        # we set the product quantity to that storage quantity
+        else:
+            product.quantity = total_quantity
+            product.active = True
+            product.last_active_date = None
+            product.save()
+    # the product was not found, nothing has to be done then
+    except Product.DoesNotExist:
+        pass
 
     
