@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
     'storages.apps.StoragesConfig',
     'products.apps.ProductsConfig',
+    'sales.apps.SalesConfig',
     # Third-Party Applications
     'rest_framework',
     'rest_framework_simplejwt',

@@ -3,8 +3,6 @@ from django.db import models
 from django.conf import settings
 from django.contrib.auth.base_user import BaseUserManager
 
-
-
 class CustomBaseManager(BaseUserManager):
     def create_user(self, username, email, password=None, **extra_fields):
         if not username:
