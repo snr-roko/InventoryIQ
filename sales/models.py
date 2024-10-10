@@ -51,7 +51,8 @@ class OrderItem(models.Model):
 
 transfer = (
     ('PENDING', 'pending'),
-    ('RECEIVED', 'received')
+    ('RECEIVED', 'received'),
+    ('CANCELLED', 'cancelled')
 )
 
 class StockTransfer(models.Model):
