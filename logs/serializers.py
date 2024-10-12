@@ -10,3 +10,4 @@ class StoreStockSerializer(serializers.ModelSerializer):
     class Meta:
         model = StoreStock
         fields = ('name', 'stock_code', 'category', 'quantity', 'active', 'reorder_level', 'store', 'supplier')
+

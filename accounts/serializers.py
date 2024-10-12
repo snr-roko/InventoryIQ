@@ -24,7 +24,7 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
 class UserListSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = ("id", "full_name", "username", "email", "phone_number","role", "created_by")
+        fields = ("id", "full_name", "email", "phone_number","role", "created_by")
         
 
 class UserProfileSerializer(serializers.ModelSerializer):

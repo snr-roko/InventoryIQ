@@ -49,6 +49,12 @@ coming soon
    - Implement User and Inventory Item models
    - Develop basic CRUD operations for Inventory Items
    - Implement user authentication and authorization
+   - Supplier management functionality
+   - Detailed inventory reporting
+   - Multi-store inventory management
+   - Audit Logs using Created_by fields 
+   - Dynamic inventory category management
+
 
 2. **Advanced Features Implementation**
    - Develop inventory change tracking system
@@ -70,21 +76,23 @@ coming soon
    1. api/accounts/users/register  - Registering a user
    2. api/accouns/users/login/  - Logging in a user
    3. api/accounts/users/login/refresh/  - Refreshing login token
-   4. api/accounts/users/  - Retrieving collection of users
+   4. api/accounts/users/  - Retrieving collection of users (pagination as page and sorting as order parameters accepted)
    5. api/accounts/profile/  - Retrieving a logged-in user's profile 
    6. api/accounts/profile-update/  - Updating a logged-in user's profile
+**Logs**
+   7. api/logs/warehouse-stock/users/<int:pk>/ - Retrieving a list of warehouse stocks created by a user (pagination and ordering parameters accepted)
+   8. api/logs/store-stock/users/<int:pk>/  - Retrieving a list of store stocks created by a user (pagination and ordering parameters accepted)
+   9. category/users/<int:pk>/  - Retrieving a list of categories created by a user (pagination and ordering parameters accepted)
+   10. users/<int:pk>/  - Retrieving a list of users created by a user (pagination and ordering parameters accepted)
 
 
 ## Stretch Goals
 
-- Low stock alerts system
+- Low stock alerts system 
 - Dynamic inventory category management
-- Supplier management functionality
-- Detailed inventory reporting
 - Barcode scanning support
 - Automatic stock reordering suggestions
-- Multi-store inventory management
-- Audit Logs using Created_by fields
+
 
 ## Timeline
 
