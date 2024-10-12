@@ -28,8 +28,8 @@ class UserListSerializer(serializers.ModelSerializer):
         
 
 class UserProfileSerializer(serializers.ModelSerializer):
-    user = UserRegistrationSerializer(read_only = True)
+    user = UserListSerializer(read_only = True)
 
     class Meta:
         model = UserProfile
-        fields = ("id", "user", "date_of_birth", "bio", "profile-picture")
+        fields = ("id", "user", "date_of_birth", "bio", "profile_picture")

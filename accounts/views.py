@@ -1,20 +1,19 @@
-from rest_framework.generics import CreateAPIView, ListAPIView
-from .serializers import UserRegistrationSerializer, UserListSerializer
+from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView
+from .serializers import UserRegistrationSerializer, UserListSerializer, UserProfileSerializer
 from .permissions import UserRegistrationPermission
 from django.contrib.auth import get_user_model
-from rest_framework.permissions import IsAuthenticated
+from .models import UserProfile
 
 
 class UserRegistrationView(CreateAPIView):
     serializer_class = UserRegistrationSerializer
-    permission_classes = (IsAuthenticated, UserRegistrationPermission)
+    permission_classes = (UserRegistrationPermission)
 
     def get_serializer_context(self):
         return {'request': self.request}
     
 class UserListView(ListAPIView):
     serializer_class = UserListSerializer
-    permission_classes = (IsAuthenticated,)
     # Filtering data returned based on the requst.user's role
     def get_queryset(self):
         user = self.request.user
@@ -28,3 +27,12 @@ class UserListView(ListAPIView):
             return get_user_model().objects.filter(role__in=['WAREHOUSE_STAFF', 'STORE_STAFF'])
         else:
             return get_user_model().objects.none()
+        
+class UserProfileView(RetrieveAPIView):
+    serializer_class = UserProfileSerializer
+
+    def get_object(self):
+        user = self.request.user
+        profile = UserProfile.objects.get(user=user)
+        return profile
+    

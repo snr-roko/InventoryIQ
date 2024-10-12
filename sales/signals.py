@@ -10,10 +10,10 @@ def create_update_delete_orderItems(sender, instance, created, **kwargs):
     This signal function is used to automatically update the quantity and some other fields of the Order model 
     whenever the OrderItem model is created or updated.
     """
-    # we set order_id to the orderItem instance's order field
-    order_id = instance.order
-    # we filter the database for an order with that particular id and set it to order
-    order = Order.objects.get(id=order_id)
+    # # we set order_id to the orderItem instance's order field
+    # order_id = instance.order
+    # # we filter the database for an order with that particular id and set it to order
+    # order = Order.objects.get(id=order_id)
 
     if order:
         # we look for all order items with that particular order linked to it
