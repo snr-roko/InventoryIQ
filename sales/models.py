@@ -6,10 +6,10 @@ from storages.models import Store, Warehouse
 # Create your models here.
 class Customer(models.Model):
     name = models.CharField(max_length=255)
-    email = models.EmailField()
-    phone = models.CharField(max_length=15)
-    billing_address = models.CharField(max_length=255)
-    shipping_address = models.CharField(max_length=255)
+    email = models.EmailField(blank=True, null=True)
+    phone = models.CharField(max_length=15, blank=True, null=True)
+    billing_address = models.CharField(max_length=255, blank=True, null=True)
+    shipping_address = models.CharField(max_length=255, blank=True, null=True)
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name="customers_created")
 
     def __str__(self):

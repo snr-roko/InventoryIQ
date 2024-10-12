@@ -49,7 +49,7 @@ def create_update_product(sender, instance, created, **kwargs):
 def update_delete_product(sender, instance, **kwargs):
     """
     This is a signal to automatically recalculate product quantity whenever a warehouse stock or store stock is deleted
-    When the product quantity recalculated is zero, the product is also deleted
+    When the product quantity recalculated is zero, the product is also deactivated
     """
     stock_code = instance.stock_code
 
