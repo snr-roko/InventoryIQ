@@ -20,24 +20,24 @@ InventoryIQ is a powerful Django-based API for intelligent inventory management,
 
 ## Project Overview
 
-InventoryIQ is a comprehensive Inventory Management API built with Django and Django REST Framework. It allows authenticated users to perform CRUD operations on inventory items, manage user accounts, and track inventory changes.
+InventoryIQ is a comprehensive Inventory Management API built with Django and Django REST Framework. It allows authenticated users to perform CRUD operations on inventory items, manage user accounts, and track inventory changes in a robust manner.
 
 ## Features
 
 - User authentication and authorization
-- CRUD operations for inventory items
+- CRUD operations for inventory items and storages
 - Inventory change tracking
-- Pagination and sorting (Name, Quantity, Price, Date Added)
 - RESTful API design
+- JWT Authentication
 - Secure and efficient data management
 
 ## Technology Stack
 
 - Backend: Django
 - API Framework: Django REST Framework
-- Database: PostgreSQL
-- Authentication: Django's built-in authentication system
-- Deployment: PythonAnywhere
+- Database: 
+- Authentication: Django's built-in authentication system and JWT Authentication
+- Deployment: 
 
 ## Getting Started
 
@@ -62,12 +62,19 @@ coming soon
 
 4. **Testing and Deployment**
    - Write unit and integration tests
-   - Deploy API to PythonAnywhere
+   - Deploy API to -----
    - Perform final testing and optimization in production environment
 
 ## API Endpoints
+**Accounts**
+   1. api/accounts/users/register  - Registering a user
+   2. api/accouns/users/login/  - Logging in a user
+   3. api/accounts/users/login/refresh/  - Refreshing login token
+   4. api/accounts/users/  - Retrieving collection of users
+   5. api/accounts/profile/  - Retrieving a logged-in user's profile 
+   6. api/accounts/profile-update/  - Updating a logged-in user's profile
 
-coming soon
+
 ## Stretch Goals
 
 - Low stock alerts system
@@ -77,6 +84,7 @@ coming soon
 - Barcode scanning support
 - Automatic stock reordering suggestions
 - Multi-store inventory management
+- Audit Logs using Created_by fields
 
 ## Timeline
 

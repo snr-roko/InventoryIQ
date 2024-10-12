@@ -29,7 +29,7 @@ class UserListSerializer(serializers.ModelSerializer):
 
 class UserProfileSerializer(serializers.ModelSerializer):
     user = UserListSerializer(read_only = True)
-
+    # Linking the user field to a the userlist serializer to use its serializer definition to return certain fields
     class Meta:
         model = UserProfile
         fields = ("id", "user", "date_of_birth", "bio", "profile_picture")

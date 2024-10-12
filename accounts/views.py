@@ -1,9 +1,9 @@
-from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView
+from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView, UpdateAPIView
 from .serializers import UserRegistrationSerializer, UserListSerializer, UserProfileSerializer
 from .permissions import UserRegistrationPermission
 from django.contrib.auth import get_user_model
 from .models import UserProfile
-
+from rest_framework.filters import OrderingFilter
 
 class UserRegistrationView(CreateAPIView):
     serializer_class = UserRegistrationSerializer
@@ -14,6 +14,9 @@ class UserRegistrationView(CreateAPIView):
     
 class UserListView(ListAPIView):
     serializer_class = UserListSerializer
+    filter_backends = (OrderingFilter,)
+    ordering_fields = ["full_name", "age", "role"]
+    ordering = ["role"]
     # Filtering data returned based on the requst.user's role
     def get_queryset(self):
         user = self.request.user
@@ -35,4 +38,12 @@ class UserProfileView(RetrieveAPIView):
         user = self.request.user
         profile = UserProfile.objects.get(user=user)
         return profile
+
+class UserProfileUpdateView(UpdateAPIView):
+    serializer_class = UserProfileSerializer
     
+    def get_object(self):
+        user = self.request.user
+        profile = UserProfile.objects.get(user=user)
+        return profile
+
