@@ -80,17 +80,17 @@ coming soon
    5. **GET**     api/accounts/profile/me/  - Retrieving a logged-in user's profile 
    6. **PUT**     api/accounts/profile-update/me/  - Updating a logged-in user's profile
 **Logs** __Pagination and Ordering parameters accepted__
-   7. **GET**     api/logs/warehouse-stocks/users/<int:pk>/ - Retrieving a list of warehouse stocks created by a user 
-   8. **GET**     api/logs/store-stocks/users/<int:pk>/  - Retrieving a list of store stocks created by a user 
-   9. **GET**     api/logs/categories/users/<int:pk>/  - Retrieving a list of categories created by a user 
-  10. **GET**     api/logs/users/<int:pk>/  - Retrieving a list of users created by a user 
-  11. **GET**     api/logs/warehouses/users/<int:pk>/  - Retrieving a list of warehouses created by a user 
-  12. **GET**     api/logs/stores/users/<int:pk>/  - Retrieving a list of stores created by a user
-  13. **GET**     api/logs/suppliers/users/<int:pk>/  - Retrieving a list of suppliers created by a user
-  14. **GET**     api/logs/customers/users/<int:pk>/  - Retrieving a list of customers created by a user
-  15. **GET**     api/logs/order-items/users/<int:pk>/  - Retrieving a list of Order Items created by a user
-  16. **GET**     api/logs/orders/users/<int:pk>/  - Retrieving a list of Orders created by a user
-  17. **GET**     api/logs/stock-transfers/users/<int:pk>/  - Retrieving a list of Stock Transfers created by a user
+   7. **GET**     api/logs/users/<int:pk>/warehouse-stocks/ - Retrieving a list of warehouse stocks created by a user 
+   8. **GET**     api/logs/users/<int:pk>/store-stocks/  - Retrieving a list of store stocks created by a user 
+   9. **GET**     api/logs/users/<int:pk>/categories/  - Retrieving a list of categories created by a user 
+  10. **GET**     api/logs/users/<int:pk>/users/  - Retrieving a list of users created by a user 
+  11. **GET**     api/logs/users/<int:pk>/warehouses/  - Retrieving a list of warehouses created by a user 
+  12. **GET**     api/logs/users/<int:pk>/stores/  - Retrieving a list of stores created by a user
+  13. **GET**     api/logs/users/<int:pk>/suppliers/  - Retrieving a list of suppliers created by a user
+  14. **GET**     api/logs/users/<int:pk>/customers/  - Retrieving a list of customers created by a user
+  15. **GET**     api/logs/users/<int:pk>/order-items/  - Retrieving a list of Order Items created by a user
+  16. **GET**     api/logs/users/<int:pk>/orders/  - Retrieving a list of Orders created by a user
+  17. **GET**     api/logs/users/<int:pk>/stock-transfers/  - Retrieving a list of Stock Transfers created by a user
 **Storages**
   18. **GET**     api/storages/warehouses/  - Retrieving a list of all warehouses (Pagination and sorting implemented)
   19. **GET**     api/storages/warehouses/<int:pk>  - Retrieving a single warehouse resource
