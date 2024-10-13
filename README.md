@@ -79,12 +79,14 @@ coming soon
    4. api/accounts/users/  - Retrieving collection of users (pagination as page and sorting as order parameters accepted)
    5. api/accounts/profile/  - Retrieving a logged-in user's profile 
    6. api/accounts/profile-update/  - Updating a logged-in user's profile
-**Logs**
-   7. api/logs/warehouse-stock/users/<int:pk>/ - Retrieving a list of warehouse stocks created by a user (pagination and ordering parameters accepted)
-   8. api/logs/store-stock/users/<int:pk>/  - Retrieving a list of store stocks created by a user (pagination and ordering parameters accepted)
-   9. category/users/<int:pk>/  - Retrieving a list of categories created by a user (pagination and ordering parameters accepted)
-   10. users/<int:pk>/  - Retrieving a list of users created by a user (pagination and ordering parameters accepted)
-
+**Logs** __Pagination and Ordering parameters accepted__
+   7. api/logs/warehouse-stock/users/<int:pk>/ - Retrieving a list of warehouse stocks created by a user 
+   8. api/logs/store-stock/users/<int:pk>/  - Retrieving a list of store stocks created by a user 
+   9. api/logs/category/users/<int:pk>/  - Retrieving a list of categories created by a user 
+  10. api/logs/users/<int:pk>/  - Retrieving a list of users created by a user 
+  11. api/logs/warehouse/users/<int:pk>/ - Retrieving a list of warehouses created by a user 
+  12. api/logs/store/users/<int:pk>/ - Retrieving a list of stores created by a user
+  13. api/logs/supplier/users/<int:pk>/ - Retrieving a list of suppliers created by a user
 
 ## Stretch Goals
 

@@ -5,6 +5,8 @@ from rest_framework.filters import OrderingFilter
 from products.serializers import ProductCategorySerializer
 from accounts.serializers import UserListSerializer
 from django.contrib.auth import get_user_model
+from storages.serializers import WarehouseSerializer, StoreSerializer, SupplierSerializer
+from storages.models import Warehouse, Store, Supplier
 
 class UserWarehouseStockListView(ListAPIView):
     serializer_class = WarehouseStockSerializer
@@ -45,3 +47,35 @@ class UsersLogListView(ListAPIView):
     def get_queryset(self):
         user_id = self.kwargs['pk']
         return get_user_model().objects.filter(created_by=user_id)
+    
+class UserWarehouseLogListView(ListAPIView):
+    serializer_class = WarehouseSerializer
+    filter_backends = (OrderingFilter,)
+    ordering_fields = ["name", "location"]
+    ordering = ["name"]
+
+    def get_queryset(self):
+        user_id = self.kwargs['pk']
+        return Warehouse.objects.filter(created_by=user_id)
+    
+class UserStoreLogListView(ListAPIView):
+    serializer_class = StoreSerializer
+    filter_backends = (OrderingFilter,)
+    ordering_fields = ["name", "location"]
+    ordering = ["name"]
+
+    def get_queryset(self):
+        user_id = self.kwargs['pk']
+        return Store.objects.filter(created_by=user_id)
+
+
+class UserSupplierLogListView(ListAPIView):
+    serializer_class = SupplierSerializer
+    filter_backends = (OrderingFilter,)
+    ordering_fields = ["name", "address"]
+    ordering = ["name"]
+
+    def get_queryset(self):
+        user_id = self.kwargs['pk']
+        return Supplier.objects.filter(created_by=user_id)
+            
