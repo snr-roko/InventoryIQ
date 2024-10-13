@@ -9,9 +9,11 @@ from storages.serializers import WarehouseSerializer, StoreSerializer, SupplierS
 from storages.models import Warehouse, Store, Supplier
 from sales.models import Order, OrderItem, Customer, StockTransfer
 from sales.serializers import OrderItemSerializer, OrderSerializer, CustomerSerializer, StockTransferSerializer
+from .permissions import LogsPermissions
 
 class UserWarehouseStockListView(ListAPIView):
     serializer_class = WarehouseStockSerializer
+    permission_classes = (LogsPermissions,)
     filter_backends = (OrderingFilter,)
     ordering_fields = ["name", "stock_code", "category", "quantity", "active", "warehouse", "supplier"]
     ordering = ["stock_code"]
@@ -22,6 +24,7 @@ class UserWarehouseStockListView(ListAPIView):
     
 class UserStoreStockListView(ListAPIView):
     serializer_class = StoreStockSerializer
+    permission_classes = (LogsPermissions,)
     filter_backends = (OrderingFilter,)
     ordering_fields = ["name", "stock_code", "category", "quantity", "active", "store", "supplier"]
     ordering = ["stock_code"]
@@ -32,6 +35,7 @@ class UserStoreStockListView(ListAPIView):
     
 class UserProductCategoryListView(ListAPIView):
     serializer_class = ProductCategorySerializer
+    permission_classes = (LogsPermissions,)
     filter_backends = (OrderingFilter,)
     ordering_fields = ["name", "active"]
     ordering = ["name"]
@@ -42,6 +46,7 @@ class UserProductCategoryListView(ListAPIView):
     
 class UsersLogListView(ListAPIView):
     serializer_class = UserListSerializer
+    permission_classes = (LogsPermissions,)
     filter_backends = (OrderingFilter,)
     ordering_fields = ["full_name", "email"]
     ordering = ["full_name"]
@@ -52,6 +57,7 @@ class UsersLogListView(ListAPIView):
     
 class UserWarehouseLogListView(ListAPIView):
     serializer_class = WarehouseSerializer
+    permission_classes = (LogsPermissions,)
     filter_backends = (OrderingFilter,)
     ordering_fields = ["name", "location"]
     ordering = ["name"]
@@ -62,6 +68,7 @@ class UserWarehouseLogListView(ListAPIView):
     
 class UserStoreLogListView(ListAPIView):
     serializer_class = StoreSerializer
+    permission_classes = (LogsPermissions,)
     filter_backends = (OrderingFilter,)
     ordering_fields = ["name", "location"]
     ordering = ["name"]
@@ -73,6 +80,7 @@ class UserStoreLogListView(ListAPIView):
 
 class UserSupplierLogListView(ListAPIView):
     serializer_class = SupplierSerializer
+    permission_classes = (LogsPermissions,)
     filter_backends = (OrderingFilter,)
     ordering_fields = ["name", "address"]
     ordering = ["name"]
@@ -83,6 +91,7 @@ class UserSupplierLogListView(ListAPIView):
             
 class UserCustomerLogListView(ListAPIView):
     serializer_class = CustomerSerializer
+    permission_classes = (LogsPermissions,)
     filter_backends = (OrderingFilter,)
     ordering_fields = ["name", "email"]
     ordering = ["name"]
@@ -93,6 +102,7 @@ class UserCustomerLogListView(ListAPIView):
 
 class UserOrderItemLogListView(ListAPIView):
     serializer_class = OrderItemSerializer
+    permission_classes = (LogsPermissions,)
     filter_backends = (OrderingFilter,)
     ordering_fields = ["order", "product", "store", "total_price", "customer", "order_date"]
     ordering = ["order"]
@@ -102,7 +112,8 @@ class UserOrderItemLogListView(ListAPIView):
         return OrderItem.objects.filter(created_by=user_id)
 
 class UserOrderLogListView(ListAPIView):
-    serializer_class = CustomerSerializer
+    serializer_class = OrderSerializer
+    permission_classes = (LogsPermissions,)
     filter_backends = (OrderingFilter,)
     ordering_fields = ["order_date", "total_amount", "status", "customer"]
     ordering = ["order_date"]
@@ -113,6 +124,7 @@ class UserOrderLogListView(ListAPIView):
     
 class UserStockTransferLogListView(ListAPIView):
     serializer_class = StockTransferSerializer
+    permission_classes = (LogsPermissions,)
     filter_backends = (OrderingFilter,)
     ordering_fields = ["source", "destination", "stock", "date_transferred", "quantity", "status"]
     ordering = ["stock"]
