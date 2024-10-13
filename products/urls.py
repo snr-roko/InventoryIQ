@@ -4,8 +4,8 @@ from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
 
-router.register("warehouses", WarehouseStockViewSet, basename="warehouses")
-router.register("stores", StoreStockViewSet, basename="stores")
+router.register("warehouse-stocks", WarehouseStockViewSet, basename="warehouse-stocks")
+router.register("store-stocks", StoreStockViewSet, basename="store-stocks")
 router.register("categories", ProductCategoryViewSet, basename="categories")
 router.register("", ProductViewSet, basename="products")
 

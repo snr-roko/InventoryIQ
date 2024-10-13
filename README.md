@@ -73,24 +73,31 @@ coming soon
 
 ## API Endpoints
 **Accounts**
-   1. api/accounts/users/register  - Registering a user
-   2. api/accouns/users/login/  - Logging in a user
-   3. api/accounts/users/login/refresh/  - Refreshing login token
-   4. api/accounts/users/  - Retrieving collection of users (pagination as page and sorting as order parameters accepted)
-   5. api/accounts/profile/me/  - Retrieving a logged-in user's profile 
-   6. api/accounts/profile-update/me/  - Updating a logged-in user's profile
+   1. **POST** api/accounts/users/register  - Registering a user
+   2. **POST** api/accouns/users/login/  - Logging in a user
+   3. **POST**    api/accounts/users/login/refresh/  - Refreshing login token
+   4. **GET**     api/accounts/users/  - Retrieving collection of users (pagination as page and sorting as order parameters accepted)
+   5. **GET**     api/accounts/profile/me/  - Retrieving a logged-in user's profile 
+   6. **PUT**     api/accounts/profile-update/me/  - Updating a logged-in user's profile
 **Logs** __Pagination and Ordering parameters accepted__
-   7. api/logs/warehouse-stocks/users/<int:pk>/ - Retrieving a list of warehouse stocks created by a user 
-   8. api/logs/store-stocks/users/<int:pk>/  - Retrieving a list of store stocks created by a user 
-   9. api/logs/categories/users/<int:pk>/  - Retrieving a list of categories created by a user 
-  10. api/logs/users/<int:pk>/  - Retrieving a list of users created by a user 
-  11. api/logs/warehouses/users/<int:pk>/  - Retrieving a list of warehouses created by a user 
-  12. api/logs/stores/users/<int:pk>/  - Retrieving a list of stores created by a user
-  13. api/logs/suppliers/users/<int:pk>/  - Retrieving a list of suppliers created by a user
-  14. api/logs/customers/users/<int:pk>/  - Retrieving a list of customers created by a user
-  15. api/logs/order-items/users/<int:pk>/  - Retrieving a list of Order Items created by a user
-  16. api/logs/orders/users/<int:pk>/  - Retrieving a list of Orders created by a user
-  17. api/logs/stock-transfers/users/<int:pk>/  - Retrieving a list of Stock Transfers created by a user
+   7. **GET**     api/logs/warehouse-stocks/users/<int:pk>/ - Retrieving a list of warehouse stocks created by a user 
+   8. **GET**     api/logs/store-stocks/users/<int:pk>/  - Retrieving a list of store stocks created by a user 
+   9. **GET**     api/logs/categories/users/<int:pk>/  - Retrieving a list of categories created by a user 
+  10. **GET**     api/logs/users/<int:pk>/  - Retrieving a list of users created by a user 
+  11. **GET**     api/logs/warehouses/users/<int:pk>/  - Retrieving a list of warehouses created by a user 
+  12. **GET**     api/logs/stores/users/<int:pk>/  - Retrieving a list of stores created by a user
+  13. **GET**     api/logs/suppliers/users/<int:pk>/  - Retrieving a list of suppliers created by a user
+  14. **GET**     api/logs/customers/users/<int:pk>/  - Retrieving a list of customers created by a user
+  15. **GET**     api/logs/order-items/users/<int:pk>/  - Retrieving a list of Order Items created by a user
+  16. **GET**     api/logs/orders/users/<int:pk>/  - Retrieving a list of Orders created by a user
+  17. **GET**     api/logs/stock-transfers/users/<int:pk>/  - Retrieving a list of Stock Transfers created by a user
+**Storages**
+  18. **GET**     api/storages/warehouses/  - Retrieving a list of all warehouses (Pagination and sorting implemented)
+  19. **GET**     api/storages/warehouses/<int:pk>  - Retrieving a single warehouse resource
+  20. **POST**    api/storages/warehouses/  - Creating a new warehouse
+  21. **PUT**     api/storages/warehouses/<int:pk>  - Updating a warehouse object by sending full object
+  22. **PATCH**   api/storages/warehouses/<int:pk>  -Updating a warehouse object by sending just the updated field
+  23. **DELETE**  api/storages/warehouses/<int:pk>  -Deleting a warehouse object
 
 ## Stretch Goals
 

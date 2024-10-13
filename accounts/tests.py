@@ -12,37 +12,37 @@ User = get_user_model()
 class AccountsTests(TestCase):
     def setUp(self):
         self.client = APIClient()
-        self.manager_user = User.objects.create(
+        self.manager_user = User.objects.create_user(
             username = "managertestuser",
             email = "managertestuser@test.com",
             password = "secretpassword",
             role = "MANAGER"
         )
-        self.staff_user = User.objects.create(
+        self.staff_user = User.objects.create_user(
             username = "stafftestuser",
             email = "stafftestuser@test.com",
             password = "secretpassword",
             role = "STAFF"
         )
-        self.warehouse_manager_user = User.objects.create(
+        self.warehouse_manager_user = User.objects.create_user(
             username = "warehousemanagertestuser",
             email = "warehousemanagertestuser@test.com",
             password = "secretpassword",
             role = "WAREHOUSE_MANAGER"
         )
-        self.warehouse_staff_user = User.objects.create(
+        self.warehouse_staff_user = User.objects.create_user(
             username = "warehousestafftestuser",
             email = "warehousestafftestuser@test.com",
             password = "secretpassword",
             role = "WAREHOUSE_STAFF"
         )
-        self.store_manager_user = User.objects.create(
+        self.store_manager_user = User.objects.create_user(
             username = "storemanagertestuser",
             email = "storemanagertestuser@test.com",
             password = "secretpassword",
             role = "STORE_MANAGER"
         )
-        self.store_staff_user = User.objects.create(
+        self.store_staff_user = User.objects.create_user(
             username = "storestafftestuser",
             email = "storestafftestuser@test.com",
             password = "secretpassword",
