@@ -98,6 +98,12 @@ coming soon
   21. **PUT**     api/storages/warehouses/<int:pk>  - Updating a warehouse object by sending full object
   22. **PATCH**   api/storages/warehouses/<int:pk>  -Updating a warehouse object by sending just the updated field
   23. **DELETE**  api/storages/warehouses/<int:pk>  -Deleting a warehouse object
+  24. **GET**     api/storages/stores/  - Retrieving a list of all stores (Pagination and sorting implemented)
+  25. **GET**     api/storages/stores/<int:pk>  - Retrieving a single store resource
+  26. **POST**    api/storages/stores/  - Creating a new store
+  27. **PUT**     api/storages/stores/<int:pk>  - Updating a store object by sending full object
+  28. **PATCH**   api/storages/stores/<int:pk>  -Updating a store object by sending just the updated field
+  29. **DELETE**  api/storages/stores/<int:pk>  -Deleting a store object
 
 ## Stretch Goals
 
