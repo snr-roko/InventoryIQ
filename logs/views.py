@@ -7,6 +7,8 @@ from accounts.serializers import UserListSerializer
 from django.contrib.auth import get_user_model
 from storages.serializers import WarehouseSerializer, StoreSerializer, SupplierSerializer
 from storages.models import Warehouse, Store, Supplier
+from sales.models import Order, OrderItem, Customer, StockTransfer
+from sales.serializers import OrderItemSerializer, OrderSerializer, CustomerSerializer, StockTransferSerializer
 
 class UserWarehouseStockListView(ListAPIView):
     serializer_class = WarehouseStockSerializer
@@ -79,3 +81,42 @@ class UserSupplierLogListView(ListAPIView):
         user_id = self.kwargs['pk']
         return Supplier.objects.filter(created_by=user_id)
             
+class UserCustomerLogListView(ListAPIView):
+    serializer_class = CustomerSerializer
+    filter_backends = (OrderingFilter,)
+    ordering_fields = ["name", "email"]
+    ordering = ["name"]
+
+    def get_queryset(self):
+        user_id = self.kwargs['pk']
+        return Customer.objects.filter(created_by=user_id)
+
+class UserOrderItemLogListView(ListAPIView):
+    serializer_class = OrderItemSerializer
+    filter_backends = (OrderingFilter,)
+    ordering_fields = ["order", "product", "store", "total_price", "customer", "order_date"]
+    ordering = ["order"]
+
+    def get_queryset(self):
+        user_id = self.kwargs['pk']
+        return OrderItem.objects.filter(created_by=user_id)
+
+class UserOrderLogListView(ListAPIView):
+    serializer_class = CustomerSerializer
+    filter_backends = (OrderingFilter,)
+    ordering_fields = ["order_date", "total_amount", "status", "customer"]
+    ordering = ["order_date"]
+
+    def get_queryset(self):
+        user_id = self.kwargs['pk']
+        return Order.objects.filter(created_by=user_id)
+    
+class UserStockTransferLogListView(ListAPIView):
+    serializer_class = StockTransferSerializer
+    filter_backends = (OrderingFilter,)
+    ordering_fields = ["source", "destination", "stock", "date_transferred", "quantity", "status"]
+    ordering = ["stock"]
+
+    def get_queryset(self):
+        user_id = self.kwargs['pk']
+        return StockTransfer.objects.filter(created_by=user_id)

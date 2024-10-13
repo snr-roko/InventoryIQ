@@ -80,14 +80,18 @@ coming soon
    5. api/accounts/profile/  - Retrieving a logged-in user's profile 
    6. api/accounts/profile-update/  - Updating a logged-in user's profile
 **Logs** __Pagination and Ordering parameters accepted__
-   7. api/logs/warehouse-stock/users/<int:pk>/ - Retrieving a list of warehouse stocks created by a user 
-   8. api/logs/store-stock/users/<int:pk>/  - Retrieving a list of store stocks created by a user 
-   9. api/logs/category/users/<int:pk>/  - Retrieving a list of categories created by a user 
+   7. api/logs/warehouse-stocks/users/<int:pk>/ - Retrieving a list of warehouse stocks created by a user 
+   8. api/logs/store-stocks/users/<int:pk>/  - Retrieving a list of store stocks created by a user 
+   9. api/logs/categories/users/<int:pk>/  - Retrieving a list of categories created by a user 
   10. api/logs/users/<int:pk>/  - Retrieving a list of users created by a user 
-  11. api/logs/warehouse/users/<int:pk>/ - Retrieving a list of warehouses created by a user 
-  12. api/logs/store/users/<int:pk>/ - Retrieving a list of stores created by a user
-  13. api/logs/supplier/users/<int:pk>/ - Retrieving a list of suppliers created by a user
-
+  11. api/logs/warehouses/users/<int:pk>/  - Retrieving a list of warehouses created by a user 
+  12. api/logs/stores/users/<int:pk>/  - Retrieving a list of stores created by a user
+  13. api/logs/suppliers/users/<int:pk>/  - Retrieving a list of suppliers created by a user
+  14. api/logs/customers/users/<int:pk>/  - Retrieving a list of customers created by a user
+  15. api/logs/order-items/users/<int:pk>/  - Retrieving a list of Order Items created by a user
+  16. api/logs/orders/users/<int:pk>/  - Retrieving a list of Orders created by a user
+  17. api/logs/stock-transfers/users/<int:pk>/  - Retrieving a list of Stock Transfers created by a user
+  
 ## Stretch Goals
 
 - Low stock alerts system 
