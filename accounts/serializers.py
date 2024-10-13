@@ -10,10 +10,14 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         fields = ("id", "first_name", "last_name", "full_name", "phone_number", "username", "email", "age", "role", "password", "confirm_password")
 
     def validate(self, data):
+        # we check whether the two passwords entered are the same.
         if data['password'] != data['confirm_password']:
             raise serializers.ValidationError("Passwords do not match")
+        # we check whether the password length is 12 or more
+        if len(data['password']) < 12:
+            raise serializers.ValidationError("Password must 12 or more characters")
         return data
-    # The above checks whether the two passwords entered are the same.
+
     def create(self, validated_data):
         validated_data.pop('confirm_password')
         created_by = self.context['request'].user

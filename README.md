@@ -77,8 +77,8 @@ coming soon
    2. api/accouns/users/login/  - Logging in a user
    3. api/accounts/users/login/refresh/  - Refreshing login token
    4. api/accounts/users/  - Retrieving collection of users (pagination as page and sorting as order parameters accepted)
-   5. api/accounts/profile/  - Retrieving a logged-in user's profile 
-   6. api/accounts/profile-update/  - Updating a logged-in user's profile
+   5. api/accounts/profile/me/  - Retrieving a logged-in user's profile 
+   6. api/accounts/profile-update/me/  - Updating a logged-in user's profile
 **Logs** __Pagination and Ordering parameters accepted__
    7. api/logs/warehouse-stocks/users/<int:pk>/ - Retrieving a list of warehouse stocks created by a user 
    8. api/logs/store-stocks/users/<int:pk>/  - Retrieving a list of store stocks created by a user 
@@ -91,7 +91,7 @@ coming soon
   15. api/logs/order-items/users/<int:pk>/  - Retrieving a list of Order Items created by a user
   16. api/logs/orders/users/<int:pk>/  - Retrieving a list of Orders created by a user
   17. api/logs/stock-transfers/users/<int:pk>/  - Retrieving a list of Stock Transfers created by a user
-  
+
 ## Stretch Goals
 
 - Low stock alerts system 

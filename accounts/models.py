@@ -4,14 +4,17 @@ from django.conf import settings
 from django.contrib.auth.base_user import BaseUserManager
 
 class CustomBaseManager(BaseUserManager):
-    def create_user(self, username, email, password=None, **extra_fields):
+    def create_user(self, username, email, role, password=None, **extra_fields):
         if not username:
             raise ValueError("Username Required")
         if not email: 
             raise ValueError("Email Required")
-        
+        if not role:
+            raise ValueError("Role Required")
+        if not password:
+            raise ValueError("Password Required")
         email = self.normalize_email(email)
-        user = self.model(username=username, email=email, **extra_fields)
+        user = self.model(username=username, role=role, email=email, **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
         return user
@@ -41,13 +44,13 @@ class CustomUser(AbstractUser):
     objects = CustomBaseManager()
     email = models.EmailField(unique=True)
     full_name = models.CharField(max_length=255)
-    phone_number =  models.CharField(max_length=10, unique=True)
-    age = models.PositiveIntegerField(null=True)
+    phone_number =  models.CharField(max_length=10)
+    age = models.PositiveIntegerField(null=True, blank=True)
     role = models.CharField(max_length=30, choices=ROLES)
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name='created_users', null=True)
 
     def __str__(self):
-        return self.full_name
+        return self.username
 
 
 class UserProfile(models.Model):
@@ -57,5 +60,5 @@ class UserProfile(models.Model):
     profile_picture = models.ImageField(upload_to='profile_pics/', max_length=255, null=True, blank=True)
 
     def __str__(self):
-        return "{} Profile".format(self.user.first_name)
+        return "{} Profile".format(self.user.username)
 

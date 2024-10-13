@@ -7,7 +7,7 @@ from rest_framework.filters import OrderingFilter
 
 class UserRegistrationView(CreateAPIView):
     serializer_class = UserRegistrationSerializer
-    permission_classes = (UserRegistrationPermission)
+    permission_classes = (UserRegistrationPermission,)
 
     def get_serializer_context(self):
         return {'request': self.request}
