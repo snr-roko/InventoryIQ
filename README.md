@@ -73,6 +73,7 @@ coming soon
 
 ## API Endpoints
 **Accounts**
+
    1. **POST** api/accounts/users/register  - Registering a user
    2. **POST** api/accouns/users/login/  - Logging in a user
    3. **POST**    api/accounts/users/login/refresh/  - Refreshing login token
@@ -81,6 +82,7 @@ coming soon
    6. **PUT**     api/accounts/profile-update/me/  - Updating a logged-in user's profile
 
 **Logs** __Pagination and Ordering parameters accepted__
+
    7. **GET**     api/logs/users/<int:pk>/warehouse-stocks/ - Retrieving a list of warehouse stocks created by a user 
    8. **GET**     api/logs/users/<int:pk>/store-stocks/  - Retrieving a list of store stocks created by a user 
    9. **GET**     api/logs/users/<int:pk>/categories/  - Retrieving a list of categories created by a user 
@@ -94,6 +96,7 @@ coming soon
   17. **GET**     api/logs/users/<int:pk>/stock-transfers/  - Retrieving a list of Stock Transfers created by a user
 
 **Storages**
+
   18. **GET**     api/storages/warehouses/  - Retrieving a list of all warehouses (Pagination and sorting implemented)
   19. **GET**     api/storages/warehouses/<int:pk>  - Retrieving a single warehouse resource
   20. **POST**    api/storages/warehouses/  - Creating a new warehouse
@@ -108,6 +111,7 @@ coming soon
   29. **DELETE**  api/storages/stores/<int:pk>  - Deleting a store object
 
 **Products**
+
   30. **GET**     api/products/warehouse-stocks/  - Retrieving a list of all warehouse stocks (Pagination and sorting implemented)
   31. **GET**     api/products/warehouse-stocks/?category=""&active=""&warehouse=""&supplier=""&supplier=""  
                   - (All Optional) query paramters for retrieving lists of 
