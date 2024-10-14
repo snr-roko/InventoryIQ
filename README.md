@@ -124,7 +124,19 @@ coming soon
   41. **PUT**     api/products/store-stocks/<int:pk>  -  Updating a store stock object by sending full object
   42. **PATCH**   api/products/store-stocks/<int:pk>  -  Updating a store stock object by sending just the updated field
   43. **DELETE**  api/products/store-stocks/<int:pk>  -  Deleting a store stock object
-  
+  44. **GET**     api/products/  - Retrieving a list of all products (Pagination and sorting implemented)
+  45. **GET**     api/products/?category=""&active=""  
+                  - (All Optional) query paramters for retrieving lists of 
+                  store stocks based on the category and being active or not 
+  46. **GET**     api/products/<int:pk>  - Retrieving a single product resource
+  47. **PATCH**   api/products/<int:pk>  -  Updating a product object by sending just the updated field
+  48. **DELETE**  api/products/<int:pk>  -  Deleting a store stock object
+  49. **GET**     api/products/categories/  - Retrieving a list of all product categories (Pagination and sorting implemented)
+  50. **GET**     api/products/categories/<int:pk>  - Retrieving a single product category resource
+  51. **POST**    api/products/categories/  - Creating a new product category
+  52. **PUT**     api/products/categories/<int:pk>  - Updating a product category by sending full object
+  53. **PATCH**   api/products/categories/<int:pk>  - Updating a product category by sending just the updated field
+  54. **DELETE**  api/products/categories/<int:pk>  - Deleting a product category object  
 
 ## Stretch Goals
 
