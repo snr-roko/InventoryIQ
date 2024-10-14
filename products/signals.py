@@ -39,6 +39,9 @@ def create_update_product(sender, instance, created, **kwargs):
         product.product_code = stock_code
 
     # we set the quantity field to the total quantity regardless of whether created or found to update quantity field
+    # we also set the product name, category and reorder levels if there has been an update
+    product.name = instance.name
+    product.category = instance.category
     product.quantity = calculate_storage_quantity(stock_code)
     product.active = True
     product.save()

@@ -3,7 +3,8 @@ from rest_framework import permissions
 
 class WarehouseStockPermissions(BasePermission):
     """
-    Admins, manager, and warehouse managers have full permissions
+    Admins, managers, and warehouse managers have full permissions
+    Except stock_code can not be updated
     All other roles do not have access to any actions
     """
     allowed_roles = {'ADMIN', 'MANAGER', 'WAREHOUSE_MANAGER'}
@@ -14,11 +15,17 @@ class WarehouseStockPermissions(BasePermission):
         else:
             return False
     def has_object_permission(self, request, view, obj):
-        return self.has_permission(request, view)
+        if view.action == 'update':
+            return request.data.get("stock_code") == obj.stock_code
+        elif view.action == 'partial_update':
+            return not request.data.get("stock_code")
+        else:
+            return view.action in ["get", "retrieve", "destroy"]
 
 class StoreStockPermissions(BasePermission):
     """
     Admins, manager, and Store managers have full permissions
+    Except stock_code can not be updated
     All other roles do not have access to any actions
     """
     allowed_roles = {'ADMIN', 'MANAGER', 'STORE_MANAGER'}
@@ -28,7 +35,12 @@ class StoreStockPermissions(BasePermission):
         else: 
             return False
     def has_object_permission(self, request, view, obj):
-        return self.has_permission(request, view)
+        if view.action == 'update':
+            return request.data.get("stock_code") == obj.stock_code
+        elif view.action == 'partial_update':
+            return not request.data.get("stock_code")
+        else:
+            return view.action in ["get", "retrieve", "destroy"]
         
 class ProductCategoryPermissions(BasePermission):
     """
@@ -47,6 +59,8 @@ class ProductCategoryPermissions(BasePermission):
 class ProductPermissions(BasePermission):
     """
     Admins, Managers, Warehouse Managers, Store Managers, and Staff have access to get requests (list and retrieve).
+    Admins and Managers can update product image and reorder levels 
+    Admins and Managers can delete inactive products
     All other roles do not have access to any action.
     """
     allowed_roles = {'ADMIN', 'MANAGER', 'WAREHOUSE_MANAGER', 'STORE_MANAGER', 'STAFF'}
@@ -57,4 +71,14 @@ class ProductPermissions(BasePermission):
         return False
 
     def has_object_permission(self, request, view, obj):
-        return self.has_permission(request, view)
+        if view.action == 'partial_update':
+            if len(request.data) == 2:
+                return request.data.get("product_image") and request.data.get("reorder_level")
+            elif len(request.data) == 1:
+                return request.data.get("product_image") or request.data.get("reorder_level")
+            else:
+                return False
+        elif view.action == 'destroy':
+            return not obj.active and request.user.get('role') in ['ADMIN', 'MANAGER']
+        else:
+            return view.action in ['retrieve', 'get']
