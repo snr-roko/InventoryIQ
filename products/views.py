@@ -4,6 +4,7 @@ from .serializers import WarehouseStockSerializer, StoreStockSerializer, Product
 from .permissions import WarehouseStockPermissions, StoreStockPermissions, ProductCategoryPermissions, ProductPermissions
 from rest_framework.filters import OrderingFilter
 from rest_framework.response import Response
+from storages.models import Warehouse
 
 class BaseViewSet(ModelViewSet):
     """
@@ -29,14 +30,37 @@ class WarehouseStockViewSet(BaseViewSet):
     ordering_fields = ["name", "stock_code", "category", "quantity", "active", "warehouse", "supplier"]
     ordering = ["stock_code"]    
 
-    def retrieve(self, request, *args, **kwargs):
-        barcode = request.query_params.get('barcode')
-        if barcode:
-            queryset = WarehouseStock.objects.filter(barcode=barcode)
-            serializer = self.serializer_class(queryset)
-        else:
-            serializer = self.serializer_class(self.queryset, many=True)
-        return Response(serializer)
+    def list(self, request, *args, **kwargs):
+        """
+        This seeks to serve a view add on for the warehouse stock view set when additional query parameters are added
+        Specifically category, active, and warehouse, supplier parameters
+        """
+        # Here, we retrieve each parameter
+        category_param = self.query_params.get("category")
+        active_param = self.query_params.get("active")
+        warehouse_param = self.query_params.get("warehouse")
+        supplier_params = self.query_params.getlist("supplier")
+
+        # we create a dictionary to unpack into the model
+        filterDict = dict()
+
+        if category_param:
+            filterDict['category'] = category_param
+        if active_param is not None:
+            filterDict['active'] = active_param.lower() in ['true', 'yes', '1']
+        if warehouse_param:
+            filterDict['warehouse'] = warehouse_param
+        if supplier_params:
+            filterDict['supplier__in'] = supplier_params
+
+        # The above makes sure that only available query parameters are used to filter the model
+
+        # Then we unpack the details of the filter dictionary.
+        # This does the trick since if none of the parameters are available, nothing would be unpacked 
+        # And thus the queryset will be the same as the instance queryset attibute
+        queryset = WarehouseStock.objects.filter(**filterDict).distinct()
+        serializer = self.serializer_class(queryset, many=True)
+        return Response(serializer)       
 
 class StoreStockViewSet(BaseViewSet):
     queryset = StoreStock.objects.all()
@@ -46,6 +70,50 @@ class StoreStockViewSet(BaseViewSet):
     ordering_fields = ["name", "stock_code", "category", "quantity", "active", "store", "supplier"]
     ordering = ["stock_code"]    
 
+    def list(self, request, *args, **kwargs):
+        """
+        This seeks to serve a view add on for the store stock view set when additional query parameters are added
+        Specifically category, active, and store, supplier parameters
+        """
+        # Here, we retrieve each parameter
+        category_param = self.query_params.get("category")
+        active_param = self.query_params.get("active")
+        store_param = self.query_params.get("store")
+        supplier_params = self.query_params.getlist("supplier")
+
+        # we create a dictionary to unpack into the model
+        filterDict = dict()
+
+        if category_param:
+            filterDict['category'] = category_param
+        if active_param is not None:
+            filterDict['active'] = active_param.lower() in ['true', 'yes', '1']
+        if store_param:
+            filterDict['store'] = store_param
+        if supplier_params:
+            filterDict['supplier__in'] = supplier_params
+
+        # The above makes sure that only available query parameters are used to filter the model
+
+        # Then we unpack the details of the filter dictionary.
+        # This does the trick since if none of the parameters are available, nothing would be unpacked 
+        # And thus the queryset will be the same as the instance queryset attibute
+        queryset = StoreStock.objects.filter(**filterDict).distinct()
+        serializer = self.serializer_class(queryset, many=True)
+        return Response(serializer) 
+          
+    def retrieve(self, request, *args, **kwargs):
+        """
+        This function serves to render barcode query parameters and retrieve an object based on the barcode.
+        """
+        barcode = request.query_params.get('barcode')
+        if barcode:
+            queryset = StoreStock.objects.filter(barcode=barcode)
+            serializer = self.serializer_class(queryset)
+        else:
+            serializer = self.serializer_class(self.queryset)
+        return Response(serializer)
+
 class ProductViewSet(BaseViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
@@ -53,3 +121,4 @@ class ProductViewSet(BaseViewSet):
     filter_backends = (OrderingFilter,)
     ordering_fields = ["name", "product_code", "category", "quantity", "active"]
     ordering = ["product_code"]  
+

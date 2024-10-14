@@ -96,20 +96,40 @@ coming soon
   19. **GET**     api/storages/warehouses/<int:pk>  - Retrieving a single warehouse resource
   20. **POST**    api/storages/warehouses/  - Creating a new warehouse
   21. **PUT**     api/storages/warehouses/<int:pk>  - Updating a warehouse object by sending full object
-  22. **PATCH**   api/storages/warehouses/<int:pk>  -Updating a warehouse object by sending just the updated field
-  23. **DELETE**  api/storages/warehouses/<int:pk>  -Deleting a warehouse object
+  22. **PATCH**   api/storages/warehouses/<int:pk>  - Updating a warehouse object by sending just the updated field
+  23. **DELETE**  api/storages/warehouses/<int:pk>  - Deleting a warehouse object
   24. **GET**     api/storages/stores/  - Retrieving a list of all stores (Pagination and sorting implemented)
   25. **GET**     api/storages/stores/<int:pk>  - Retrieving a single store resource
   26. **POST**    api/storages/stores/  - Creating a new store
   27. **PUT**     api/storages/stores/<int:pk>  - Updating a store object by sending full object
-  28. **PATCH**   api/storages/stores/<int:pk>  -Updating a store object by sending just the updated field
-  29. **DELETE**  api/storages/stores/<int:pk>  -Deleting a store object
+  28. **PATCH**   api/storages/stores/<int:pk>  - Updating a store object by sending just the updated field
+  29. **DELETE**  api/storages/stores/<int:pk>  - Deleting a store object
+**Products**
+  30. **GET**     api/products/warehouse-stocks/  - Retrieving a list of all warehouse stocks (Pagination and sorting implemented)
+  31. **GET**     api/products/warehouse-stocks/?category=""&active=""&warehouse=""&supplier=""&supplier=""  
+                  - (All Optional) query paramters for retrieving lists of 
+                  warehouse stocks based on the category, being active or not and the particular warehouse housing it as well as suppliers 
+  32. **GET**     api/products/warehouse-stocks/<int:pk>  - Retrieving a single warehouse stock resource
+  33. **POST**    api/products/warehouse-stocks/  - Creating a new warehouse stock object
+  34. **PUT**     api/products/warehouse-stocks/<int:pk>  -  Updating a warehouse stock object by sending full object
+  35. **PATCH**   api/products/warehouse-stocks/<int:pk>  -  Updating a warehouse stock object by sending just the updated field
+  36. **DELETE**  api/products/warehouse-stocks/<int:pk>  -  Deleting a warehouse stock object
+  37. **GET**     api/products/store-stocks/  - Retrieving a list of all store stocks (Pagination and sorting implemented)
+  38. **GET**     api/products/store-stocks/?category=""&active=""&store=""&supplier=""&supplier=""  
+                  - (All Optional) query paramters for retrieving lists of 
+                  store stocks based on the category, being active or not and the particular store selling it as well as suppliers 
+  38. **GET**     api/products/store-stocks/<int:pk>  - Retrieving a single store stock resource
+  39. **GET**     api/products/store-stocks/?barcode=(barcode)  - Retrieving a single store stock resource using a barcode parameter
+  40. **POST**    api/products/store-stocks/  - Creating a new store stock object
+  41. **PUT**     api/products/store-stocks/<int:pk>  -  Updating a store stock object by sending full object
+  42. **PATCH**   api/products/store-stocks/<int:pk>  -  Updating a store stock object by sending just the updated field
+  43. **DELETE**  api/products/store-stocks/<int:pk>  -  Deleting a store stock object
+  
 
 ## Stretch Goals
 
 - Low stock alerts system 
 - Dynamic inventory category management
-- Barcode scanning support
 - Automatic stock reordering suggestions
 
 

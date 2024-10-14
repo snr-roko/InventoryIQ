@@ -4,7 +4,7 @@ from storages.models import Warehouse, Store, Supplier
 from django.utils import timezone
 
 class ProductCategory(models.Model):
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, unique=True)
     active = models.BooleanField(default=True)
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name='categories_created')
 
