@@ -26,7 +26,7 @@ status = (
 class Order(models.Model):
     id = models.CharField(max_length=20, unique=True, primary_key=True)
     customer = models.ForeignKey(Customer, on_delete=models.PROTECT, related_name="orders", null=True, blank=True)
-    order_date = models.DateTimeField(auto_now_add=True)
+    order_date = models.DateField(auto_now_add=True)
     shipping_date = models.DateField(null=True, blank=True)
     total_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     status = models.CharField(max_length=100, choices=status, default='PENDING')
@@ -37,7 +37,7 @@ class Order(models.Model):
 
 class OrderItem(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.PROTECT, related_name="orderItems", null=True, blank=True)  
-    order_date = models.DateTimeField(auto_now_add=True)
+    order_date = models.DateField(auto_now_add=True)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     quantity = models.PositiveIntegerField()
     total_price = models.DecimalField(max_digits=10, decimal_places=2)
@@ -59,7 +59,7 @@ class StockTransfer(models.Model):
     source = models.ForeignKey(Warehouse, on_delete=models.PROTECT, related_name="stocksTransferred")
     destination = models.ForeignKey(Store, on_delete=models.PROTECT, related_name="stocksTransferred")
     stock = models.ForeignKey(WarehouseStock, on_delete=models.PROTECT, related_name="stocksTransferred")
-    date_transferred = models.DateTimeField(auto_now_add=True)
+    date_transferred = models.DateField(auto_now_add=True)
     quantity = models.PositiveIntegerField()
     reason = models.TextField()
     status = models.CharField(max_length=100, choices=transfer, default='PENDING')
