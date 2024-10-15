@@ -6,7 +6,7 @@ class CustomerPermissions(permissions.BasePermission):
     """
     def has_permission(self, request, view):
         if request.user.is_authenticated:
-            return request.user.get('role') in ['ADMIN', 'MANAGER', 'STORE_MANAGER', 'STORE_STAFF', 'STAFF']
+            return request.user.role in ['ADMIN', 'MANAGER', 'STORE_MANAGER', 'STORE_STAFF', 'STAFF']
         else:
             return False
     def has_object_permission(self, request, view, obj):
@@ -18,7 +18,7 @@ class OrderItemPermissions(permissions.BasePermission):
     """
     def has_permission(self, request, view):
         if request.user.is_authenticated:
-            return request.user.get('role') in ['ADMIN', 'STORE_MANAGER', 'STORE_STAFF', 'MANAGER']
+            return request.user.role in ['ADMIN', 'STORE_MANAGER', 'STORE_STAFF', 'MANAGER']
         else:
             return False
     def has_object_permission(self, request, view, obj):
@@ -36,7 +36,7 @@ class OrderPermissions(permissions.BasePermission):
     
     allowed_roles = {'ADMIN', 'MANAGER', 'STORE_STAFF', 'STORE_MANAGER'}
     def has_permission(self, request, view):
-        if request.user.is_authenticated and request.user.get('role') in self.allowed_roles:
+        if request.user.is_authenticated and request.user.role in self.allowed_roles:
             if request.method in permissions.SAFE_METHODS:
                 return True
             # ensuring that only pending orders are created
@@ -93,9 +93,9 @@ class StockTransferPermissions(permissions.BasePermission):
     def has_permission(self, request, view):
         if request.user.is_authenticated:
             if request.method in permissions.SAFE_METHODS:
-                return request.user.get('role') in self.allowed_roles
+                return request.user.role in self.allowed_roles
             elif view.action == 'create':
-                return request.data.get('status') == 'PENDING' and request.user.get('role') in ['ADMIN', 'MANAGER', 'WAREHOUSE_MANAGER']
+                return request.data.get('status') == 'PENDING' and request.user.role in ['ADMIN', 'MANAGER', 'WAREHOUSE_MANAGER']
             else:
                 return True
         else:
@@ -104,22 +104,22 @@ class StockTransferPermissions(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
             if request.method in permissions.SAFE_METHODS:
                 return request.user.role in self.allowed_roles
-            if view.action == 'partial_update':
+            elif view.action == 'partial_update':
                 if request.data.get('status') == 'RECEIVED' and obj.status == 'PENDING':
-                    return request.user.get('role') in ['ADMIN', 'MANAGER', 'STORE_MANAGER'] and 'quantity' not in request.data
+                    return request.user.role in ['ADMIN', 'MANAGER', 'STORE_MANAGER'] and 'quantity' not in request.data
                 elif not request.data.get('status') and obj.status == 'PENDING':
-                    return request.user.get('role') in ['ADMIN', 'WAREHOUSE_MANAGER', 'MANAGER']
+                    return request.user.role in ['ADMIN', 'WAREHOUSE_MANAGER', 'MANAGER']
                 elif request.data.get('status') == 'CANCELLED' and obj.status == 'RECEIVED':
-                    return request.user.get('role') in self.allowed_roles 
+                    return request.user.role in self.allowed_roles 
                 else:
                     return False
             elif view.action == 'update':
                 if request.data.get('status') == 'RECEIVED' and obj.status == 'PENDING':
-                    return request.get('role') in ['ADMIN', 'MANAGER', 'STORE_MANAGER'] and request.data.get('quantity') == obj.quantity
+                    return request.user.role in ['ADMIN', 'MANAGER', 'STORE_MANAGER'] and request.data.get('quantity') == obj.quantity
                 elif request.data.get('status') == 'PENDING' and obj.status == 'PENDING':
-                    return request.user.get('role') in ['ADMIN', 'WAREHOUSE_MANAGER', 'MANAGER']
+                    return request.user.role in ['ADMIN', 'WAREHOUSE_MANAGER', 'MANAGER']
                 elif request.data.get('status') == 'CANCELLED' and obj.status == 'RECEIVED':
-                    return request.user.get('role') in self.allowed_roles
+                    return request.user.role in self.allowed_roles
                 else:
                     return False
             elif view.action == 'destroy':
@@ -129,4 +129,6 @@ class StockTransferPermissions(permissions.BasePermission):
                     return request.user.role in self.allowed_roles
                 else:
                     return False
+            else:
+                return False
      

@@ -79,6 +79,6 @@ class ProductPermissions(BasePermission):
             else:
                 return False
         elif view.action == 'destroy':
-            return not obj.active and request.user.get('role') in ['ADMIN', 'MANAGER']
+            return not obj.active and request.user.role in ['ADMIN', 'MANAGER']
         else:
             return view.action in ['retrieve', 'get']

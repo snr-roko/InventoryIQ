@@ -1,6 +1,6 @@
 from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
-from .models import Order, OrderItem, Customer, StockTransfer
+from .models import Order, OrderItem, StockTransfer
 from products.models import StoreStock, WarehouseStock
 
 @receiver(post_save, sender=OrderItem)
@@ -13,8 +13,10 @@ def create_update_delete_orderItems(sender, instance, created, **kwargs):
     # we set order_id to the orderItem instance's order field
     order_id = instance.order
     # we filter the database for an order with that particular id and set it to order
-    order = Order.objects.get(id=order_id)
-
+    try:
+        order = Order.objects.get(id=order_id)
+    except Order.DoesNotExist:
+        pass
     if order:
         # we look for all order items with that particular order linked to it
         all_order_items = order.orderItems.all()
@@ -73,29 +75,41 @@ def update_stock_transfer(sender, instance, created, **kwargs):
         # when the status is received, we get the warehousestock id from the instance's stock field
         warehouseStock_id = instance.stock
         # we use that id to retrieve the particular warehouse stock being transferred
-        warehouseStock = WarehouseStock.objects.get(id=warehouseStock_id)
+        try:
+            warehouseStock = WarehouseStock.objects.get(id=warehouseStock_id)
+        except WarehouseStock.DoesNotExist:
+            return 
         # we decrease the warehouse stock's quantity by the instance's quantity
         warehouseStock['quantity'] = warehouseStock['quantity'] - instance['quantity']
-        warehouseStock.save()
         warehousestock_code = warehouseStock['stock_code']
         store_id = instance.destination
         # we use the warehouse stock code together with the store id - the destination to retrieve the exact store stock code
-        storestock = StoreStock.objects.get(stock_code=warehousestock_code, store=store_id)
+        try:
+            storestock = StoreStock.objects.get(stock_code=warehousestock_code, store=store_id)
+        except StoreStock.DoesNotExist:
+            return
         # we increase the quantity of that particular stock code and store combination
         storestock['quantity'] = storestock['quantity'] + instance['quantity']
+        warehouseStock.save()
         storestock.save()
     elif status == 'CANCELLED':
         # when the status is received, we get the warehousestock id from the instance's stock field
         warehouseStock_id = instance.stock
         # we use that id to retrieve the particular warehouse stock being transferred
-        warehouseStock = WarehouseStock.objects.get(id=warehouseStock_id)
+        try:
+            warehouseStock = WarehouseStock.objects.get(id=warehouseStock_id)
+        except WarehouseStock.DoesNotExist:
+            return 
         # we increase the warehouse stock's quantity by the instance's quantity
         warehouseStock['quantity'] = warehouseStock['quantity'] + instance['quantity']
-        warehouseStock.save()
         warehousestock_code = warehouseStock['stock_code']
         store_id = instance.destination
         # we use the warehouse stock code together with the store id - the destination to retrieve the exact store stock code
-        storestock = StoreStock.objects.get(stock_code=warehousestock_code, store=store_id)
+        try:
+            storestock = StoreStock.objects.get(stock_code=warehousestock_code, store=store_id)
+        except StoreStock.DoesNotExist:
+            return
         # we decrease the quantity of that particular stock code and store combination
         storestock['quantity'] = storestock['quantity'] - instance['quantity']
+        warehouseStock.save()
         storestock.save()        
