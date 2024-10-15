@@ -6,7 +6,7 @@ class CustomerPermissions(permissions.BasePermission):
     """
     def has_permission(self, request, view):
         if request.user.is_authenticated:
-            return request.user.role in ['ADMIN', 'MANAGER', 'STORE_MANAGER', 'STORE_STAFF', 'STAFF']
+            return request.user.get('role') in ['ADMIN', 'MANAGER', 'STORE_MANAGER', 'STORE_STAFF', 'STAFF']
         else:
             return False
     def has_object_permission(self, request, view, obj):
@@ -18,7 +18,7 @@ class OrderItemPermissions(permissions.BasePermission):
     """
     def has_permission(self, request, view):
         if request.user.is_authenticated:
-            return request.user.role in ['ADMIN', 'STORE_MANAGER', 'STORE_STAFF', 'MANAGER']
+            return request.user.get('role') in ['ADMIN', 'STORE_MANAGER', 'STORE_STAFF', 'MANAGER']
         else:
             return False
     def has_object_permission(self, request, view, obj):
@@ -34,11 +34,12 @@ class OrderPermissions(permissions.BasePermission):
     A destroy action can also only be done when an object's status is pending or cancelled.
     """
     
-    allowed_roles = ['ADMIN', 'MANAGER', 'STORE_STAFF', 'STORE_MANAGER']
+    allowed_roles = {'ADMIN', 'MANAGER', 'STORE_STAFF', 'STORE_MANAGER'}
     def has_permission(self, request, view):
-        if request.user.is_authenticated and request.user.role in self.allowed_roles:
+        if request.user.is_authenticated and request.user.get('role') in self.allowed_roles:
             if request.method in permissions.SAFE_METHODS:
                 return True
+            # ensuring that only pending orders are created
             elif view.action == 'create':
                 return request.data.get('status') == 'PENDING'
             else:
@@ -46,26 +47,29 @@ class OrderPermissions(permissions.BasePermission):
         else:
             return False        
     def has_object_permission(self, request, view, obj):
-        if request.user.is_authenticated and request.user.role in self.allowed_roles:
             if request.method in permissions.SAFE_METHODS:
                 return True
             elif view.action in ['partial_update', 'update']:
+                # An order's status can be updated to shipped only when paid
                 if request.data.get('status') == 'SHIPPED':
-                    return obj.status == 'PENDING'
+                    return obj.status == 'PAID'
+                # An order's status can be updated to delivered only when shipped
                 elif request.data.get('status') == 'DELIVERED':
                     return obj.status == 'SHIPPED'
+                # An order's status can be updated to cancelled only when paid, shipped or delivered
                 elif request.data.get('status') == 'CANCELLED':
                     return obj.status in ['PAID', 'SHIPPED', 'DELIVERED']
                 else:
                     return request.data.get('status') == 'PAID' and obj.status == 'PENDING'
+            # Only pending and cancelled orders can be deleted    
             elif view.action == 'destroy':
                 return obj.status in ['PENDING', 'CANCELLED']
-        else:
-            return False
+            else:
+                return False        
     
 class StockTransferPermissions(permissions.BasePermission):
     """
-    Read Permissions (All and One)
+    Read Permissions (Collections and Resources)
         Admins, Managers, Warehouse Managers, Store Managers
 
     Create Permissions
@@ -73,8 +77,8 @@ class StockTransferPermissions(permissions.BasePermission):
         Only Admins, Managers, Warehouse Managers can create Stock transfers
 
     Update Permissions
-        If status is not being changed and the object's status is pending then user must be a warehouse manager, manager or admin
         If status is being updated to received and quantity is not being updated then user must be a store manager, manager or admin
+        If status is not being changed and the object's status is pending then user must be a warehouse manager, manager or admin
         Cancelled permissions
             A status can be updated to cancelled when object's status is received.
             User must be a warehouse manager, store manager, manager or admin
@@ -85,29 +89,37 @@ class StockTransferPermissions(permissions.BasePermission):
         If pending, then user must be a warehouse manager, manager or admin
         If cancelled, then user must be a store manager, manager or admin
     """
-    allowed_roles = ['ADMIN', 'MANAGER', 'WAREHOUSE_MANAGER', 'STORE_MANAGER']
+    allowed_roles = {'ADMIN', 'MANAGER', 'WAREHOUSE_MANAGER', 'STORE_MANAGER'}
     def has_permission(self, request, view):
         if request.user.is_authenticated:
             if request.method in permissions.SAFE_METHODS:
-                return request.user.role in self.allowed_roles
+                return request.user.get('role') in self.allowed_roles
             elif view.action == 'create':
-                return request.data.get('status') == 'PENDING' and request.user.role in ['ADMIN', 'MANAGER', 'WAREHOUSE_MANAGER']
+                return request.data.get('status') == 'PENDING' and request.user.get('role') in ['ADMIN', 'MANAGER', 'WAREHOUSE_MANAGER']
             else:
                 return True
         else:
             return False
         
     def has_object_permission(self, request, view, obj):
-        if request.user.is_authenticated:
             if request.method in permissions.SAFE_METHODS:
                 return request.user.role in self.allowed_roles
-            if view.action in ['update', 'partial_update']:
-                if request.data.get('status') == 'RECEIVED' and 'quantity' not in request.data:
-                    return request.user.role in ['ADMIN', 'MANAGER', 'STORE_MANAGER'] and obj.status == 'PENDING'
+            if view.action == 'partial_update':
+                if request.data.get('status') == 'RECEIVED' and obj.status == 'PENDING':
+                    return request.user.get('role') in ['ADMIN', 'MANAGER', 'STORE_MANAGER'] and 'quantity' not in request.data
                 elif not request.data.get('status') and obj.status == 'PENDING':
-                    return request.user.role in ['ADMIN', 'WAREHOUSE_MANAGER', 'MANAGER']
-                elif request.data.get('status') == 'CANCELLED':
-                    return request.user.role in self.allowed_roles and obj.status == 'RECEIVED'
+                    return request.user.get('role') in ['ADMIN', 'WAREHOUSE_MANAGER', 'MANAGER']
+                elif request.data.get('status') == 'CANCELLED' and obj.status == 'RECEIVED':
+                    return request.user.get('role') in self.allowed_roles 
+                else:
+                    return False
+            elif view.action == 'update':
+                if request.data.get('status') == 'RECEIVED' and obj.status == 'PENDING':
+                    return request.get('role') in ['ADMIN', 'MANAGER', 'STORE_MANAGER'] and request.data.get('quantity') == obj.quantity
+                elif request.data.get('status') == 'PENDING' and obj.status == 'PENDING':
+                    return request.user.get('role') in ['ADMIN', 'WAREHOUSE_MANAGER', 'MANAGER']
+                elif request.data.get('status') == 'CANCELLED' and obj.status == 'RECEIVED':
+                    return request.user.get('role') in self.allowed_roles
                 else:
                     return False
             elif view.action == 'destroy':
@@ -117,5 +129,4 @@ class StockTransferPermissions(permissions.BasePermission):
                     return request.user.role in self.allowed_roles
                 else:
                     return False
-            else:
-                return False            
+     

@@ -17,7 +17,6 @@ class WarehousePermission(permissions.BasePermission):
         return False
     
     def has_object_permission(self, request, view, obj):
-        if request.user.is_authenticated:
             user_role = request.user.role
             # for admins and managers, full control to resources are given
             if user_role in ['ADMIN', 'MANAGER']:
@@ -26,7 +25,8 @@ class WarehousePermission(permissions.BasePermission):
             # others are not allowed
             elif user_role in ['WAREHOUSE_MANAGER', 'STAFF']:
                 return view.action in ['retrieve', 'update', 'partial_update'] 
-        return False
+            else:
+                return False
 
 class StorePermission(permissions.BasePermission):
     def has_permission(self, request, view):
@@ -45,7 +45,6 @@ class StorePermission(permissions.BasePermission):
         return False
     
     def has_object_permission(self, request, view, obj):
-        if request.user.is_authenticated:
             user_role = request.user.role
             # for admins and managers, full control to resources are given
             if user_role in ['ADMIN', 'MANAGER']:
@@ -54,7 +53,8 @@ class StorePermission(permissions.BasePermission):
             # others are not allowed
             elif user_role in ['STORE_MANAGER', 'STAFF']:
                 return view.action in ['retrieve', 'update', 'partial_update']
-        return False
+            else:
+                return False
 
 class SupplierPermission(permissions.BasePermission):
     def has_permission(self, request, view):
@@ -65,6 +65,4 @@ class SupplierPermission(permissions.BasePermission):
         return False
     
     def has_object_permission(self, request, view, obj):
-        if request.user.is_authenticated:
-            return self.has_permission(request, view)
-        return False
+        return self.has_permission(request, view)
