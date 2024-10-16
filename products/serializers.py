@@ -11,7 +11,7 @@ class WarehouseStockSerializer(serializers.ModelSerializer):
     class Meta:
         model = WarehouseStock
         fields = "__all__"
-        read_only_fields = ("quantity", "created_by")
+        read_only_fields = ("quantity", "created_by", "low_stocks")
     
     # We validate barcodes to make sure only 13 characters are entered.
     def validate_barcode(self, value):
@@ -23,10 +23,10 @@ class StoreStockSerializer(serializers.ModelSerializer):
     class Meta:
         model = StoreStock
         fields = "__all__"
-        read_only_fields = ("quantity", "created_by")
+        read_only_fields = ("quantity", "created_by", "low_stocks")
 
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = "__all__"
-        read_only_fields = ("quantity",)
+        read_only_fields = ("quantity", "low_stocks")

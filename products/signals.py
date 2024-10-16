@@ -20,6 +20,24 @@ def calculate_storage_quantity(stock_code):
 
     total_product_quantity = total_store_stock_quantity + total_warehouse_stock_quantity
     return total_product_quantity
+
+def check_low_stocks(model):
+    if model.quantity <= model.reorder_level:
+        model.low_stock = True
+    else:
+        model.low_stock = False
+    model.save()
+
+@receiver(post_save, sender=StoreStock)
+@receiver(post_save, sender=WarehouseStock)
+@receiver(post_save, sender=Product)
+def set_low_stocks(sender, instance, created, **kwargs):
+    """
+    This signal function is used to automatically set low stocks of the models to True when stocks are lower 
+    than reorder levels
+    """
+    check_low_stocks(instance)
+
 @receiver(post_save, sender=WarehouseStock)
 @receiver(post_save, sender=StoreStock)
 def create_update_product(sender, instance, created, **kwargs):

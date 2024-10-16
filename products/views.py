@@ -27,19 +27,20 @@ class WarehouseStockViewSet(BaseViewSet):
     serializer_class = WarehouseStockSerializer
     permission_classes = (WarehouseStockPermissions,)
     filter_backends = (OrderingFilter,)
-    ordering_fields = ["name", "stock_code", "category", "quantity", "active", "warehouse", "supplier"]
+    ordering_fields = ["name", "stock_code", "category", "quantity", "active", "warehouse", "supplier", "low_stock"]
     ordering = ["stock_code"]    
 
     def list(self, request, *args, **kwargs):
         """
         This seeks to serve a view add on for the warehouse stock view set when additional query parameters are added
-        Specifically category, active, and warehouse, supplier parameters
+        Specifically category, active, warehouse, supplier and low stock parameters
         """
         # Here, we retrieve each parameter
         category_param = request.query_params.get("category")
         active_param = request.query_params.get("active")
         warehouse_param = request.query_params.get("warehouse")
         supplier_params = request.query_params.getlist("supplier")
+        low_stock_param = request.query_params.get("low-stock")
 
         # we create a dictionary to unpack into the model
         filterDict = dict()
@@ -52,6 +53,8 @@ class WarehouseStockViewSet(BaseViewSet):
             filterDict['warehouse'] = warehouse_param
         if supplier_params:
             filterDict['supplier__in'] = supplier_params
+        if low_stock_param is not None:
+            filterDict["low_stock"] = low_stock_param.lower() in ['true', 'yes', '1']
 
         # The above makes sure that only available query parameters are used to filter the model
 
@@ -67,19 +70,20 @@ class StoreStockViewSet(BaseViewSet):
     serializer_class = StoreStockSerializer
     permission_classes = (StoreStockPermissions,)
     filter_backends = (OrderingFilter,)
-    ordering_fields = ["name", "stock_code", "category", "quantity", "active", "store", "supplier"]
+    ordering_fields = ["name", "stock_code", "category", "quantity", "active", "store", "supplier", "low_stock"]
     ordering = ["stock_code"]    
 
     def list(self, request, *args, **kwargs):
         """
         This seeks to serve a view add on for the store stock view set when additional query parameters are added
-        Specifically category, active, and store, supplier parameters
+        Specifically category, active, and store, supplier and low stock parameters
         """
         # Here, we retrieve each parameter
         category_param = request.query_params.get("category")
         active_param = request.query_params.get("active")
         store_param = request.query_params.get("store")
         supplier_params = request.query_params.getlist("supplier")
+        low_stock_param = request.query_params.get("low-stock")
 
         # we create a dictionary to unpack into the model
         filterDict = dict()
@@ -92,6 +96,8 @@ class StoreStockViewSet(BaseViewSet):
             filterDict['store'] = store_param
         if supplier_params:
             filterDict['supplier__in'] = supplier_params
+        if low_stock_param is not None:
+            filterDict["low_stock"] = low_stock_param.lower() in ['true', 'yes', '1']            
 
         # The above makes sure that only available query parameters are used to filter the model
 
@@ -125,11 +131,12 @@ class ProductViewSet(BaseViewSet):
     def list(self, request, *args, **kwargs):
         """
         This seeks to serve a view add on for the product view set when additional query parameters are added
-        Specifically category and active
+        Specifically category, active and low stock parameters
         """
         # Here, we retrieve each parameter
         category_param = request.query_params.get("category")
         active_param = request.query_params.get("active")
+        low_stock_param = request.query_params.get("low-stock")
 
         # we create a dictionary to unpack into the model
         filterDict = dict()
@@ -138,6 +145,8 @@ class ProductViewSet(BaseViewSet):
             filterDict['category'] = category_param
         if active_param is not None:
             filterDict['active'] = active_param.lower() in ['true', 'yes', '1']
+        if low_stock_param is not None:
+            filterDict["low_stock"] = low_stock_param.lower() in ['true', 'yes', '1']     
 
         # The above makes sure that only available query parameters are used to filter the model
 
