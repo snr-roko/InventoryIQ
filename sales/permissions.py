@@ -49,19 +49,39 @@ class OrderPermissions(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
             if request.method in permissions.SAFE_METHODS:
                 return True
-            elif view.action in ['partial_update', 'update']:
-                # An order's status can be updated to shipped only when paid
-                if request.data.get('status') == 'SHIPPED':
-                    return obj.status == 'PAID'
-                # An order's status can be updated to delivered only when shipped
-                elif request.data.get('status') == 'DELIVERED':
-                    return obj.status == 'SHIPPED'
-                # An order's status can be updated to cancelled only when paid, shipped or delivered
-                elif request.data.get('status') == 'CANCELLED':
-                    return obj.status in ['PAID', 'SHIPPED', 'DELIVERED']
+            elif view.action == 'update':
+                # A pending order can only be updated as pending or to paid
+                if obj.status == 'PENDING':
+                    return request.data.get('status') in ['PENDING', 'PAID']
+                # A paid order can only be updated to shipped or cancelled due to signals
+                elif obj.status == 'PAID':
+                    return request.data.get('status') in ['SHIPPED', 'CANCELLED']
+                # A shipped order can only be updated as shipped or to delivered or cancelled
+                elif obj.status == 'SHIPPED':
+                    return request.data.get('status') in ['SHIPPED', 'DELIVERED', 'CANCELLED']
+                # A delivered order can only be updated as delivered or to delivered or cancelled
+                elif obj.status == 'DELIVERED':
+                    return request.data.get('status') in ['SHIPPED', 'DELIVERED', 'CANCELLED']
+                # if not the above, then we expect a cancelled order that we want to update to a pending state.
                 else:
-                    return request.data.get('status') == 'PAID' and obj.status == 'PENDING'
-            # Only pending and cancelled orders can be deleted    
+                    return obj.status == 'CANCELLED' and request.data.get('status') == 'PENDING'
+            elif view.action == 'partial_update':
+                # A pending order can only be updated as pending or to paid
+                if obj.status == 'PENDING':
+                    return not request.data.get('status') or request.data.get('status') == 'PAID'
+                # A paid order can only be updated to shipped or cancelled and can not be updated as paid due to signals
+                elif obj.status == 'PAID':
+                    return request.data.get('status') and request.data.get('status') in ['SHIPPED', 'CANCELLED']
+                # A shipped order can only be updated as shipped or to delivered or cancelled
+                elif obj.status == 'SHIPPED':
+                    return not request.data.get('status') or request.data.get('status') in ['DELIVERED', 'CANCELLED']
+                # A delivered order can only be updated as delivered or to delivered or cancelled
+                elif obj.status == 'DELIVERED':
+                    return not request.data.get('status') or request.data.get('status') in ['SHIPPED', 'DELIVERED', 'CANCELLED']
+                # if not the above, then we expect a cancelled order that we want to update to a pending state.
+                else:
+                    return obj.status == 'CANCELLED' and request.data.get('status') and request.data.get('status') == 'PENDING'                
+            # The only orders that can be deleted are pending orders and cancelled orders.
             elif view.action == 'destroy':
                 return obj.status in ['PENDING', 'CANCELLED']
             else:
@@ -111,7 +131,10 @@ class StockTransferPermissions(permissions.BasePermission):
                     return request.user.role in ['ADMIN', 'WAREHOUSE_MANAGER', 'MANAGER']
                 elif request.data.get('status') == 'CANCELLED' and obj.status == 'RECEIVED':
                     return request.user.role in self.allowed_roles 
+                elif request.data.get("status") == 'PENDING' and obj.status == 'CANCELLED':
+                    return request.user.role in ['WAREHOUSE_MANAGER', 'ADMIN', 'MANAGER']
                 else:
+                    # we return false to make sure no other operation is approved due to signals
                     return False
             elif view.action == 'update':
                 if request.data.get('status') == 'RECEIVED' and obj.status == 'PENDING':
@@ -120,11 +143,14 @@ class StockTransferPermissions(permissions.BasePermission):
                     return request.user.role in ['ADMIN', 'WAREHOUSE_MANAGER', 'MANAGER']
                 elif request.data.get('status') == 'CANCELLED' and obj.status == 'RECEIVED':
                     return request.user.role in self.allowed_roles
+                elif request.data.get('status') == 'PENDING' and obj.status == 'CANCELLED':
+                    return request.user.role in ['WAREHOUSE_MANAGER', 'ADMIN', 'MANAGER']
                 else:
+                    # we return false to make sure no other operations are allowed due to signals
                     return False
             elif view.action == 'destroy':
                 if obj.status == 'PENDING':
-                    return request.user.role in ['MANAGER', 'ADMIN'] or request.user.role == obj.created_by
+                    return request.user.role in ['MANAGER', 'ADMIN'] or request.user == obj.created_by
                 elif obj.status == 'CANCELLED':
                     return request.user.role in self.allowed_roles
                 else:

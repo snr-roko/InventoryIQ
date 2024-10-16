@@ -74,8 +74,8 @@ coming soon
 ## API Endpoints
 **Accounts**
 
-   1. **POST** api/accounts/users/register  - Registering a user
-   2. **POST** api/accouns/users/login/  - Logging in a user
+   1. **POST**    api/accounts/users/register  - Registering a user
+   2. **POST**    api/accouns/users/login/  - Logging in a user
    3. **POST**    api/accounts/users/login/refresh/  - Refreshing login token
    4. **GET**     api/accounts/users/  - Retrieving collection of users (pagination as page and sorting as order parameters accepted)
    5. **GET**     api/accounts/profile/me/  - Retrieving a logged-in user's profile 
@@ -113,18 +113,14 @@ coming soon
 **Products**
 
   30. **GET**     api/products/warehouse-stocks/  - Retrieving a list of all warehouse stocks (Pagination and sorting implemented)
-  31. **GET**     api/products/warehouse-stocks/?category=""&active=""&warehouse=""&supplier=""&supplier=""  
-                  - (All Optional) query paramters for retrieving lists of 
-                  warehouse stocks based on the category, being active or not and the particular warehouse housing it as well as suppliers 
+  31. **GET**     api/products/warehouse-stocks/?category=""&active=""&warehouse=""&supplier=""&supplier=""  - (All Optional) query paramters for retrieving lists of warehouse stocks based on the category, being active or not and the particular warehouse housing it as well as suppliers 
   32. **GET**     api/products/warehouse-stocks/<int:pk>  - Retrieving a single warehouse stock resource
   33. **POST**    api/products/warehouse-stocks/  - Creating a new warehouse stock object
   34. **PUT**     api/products/warehouse-stocks/<int:pk>  -  Updating a warehouse stock object by sending full object
   35. **PATCH**   api/products/warehouse-stocks/<int:pk>  -  Updating a warehouse stock object by sending just the updated field
   36. **DELETE**  api/products/warehouse-stocks/<int:pk>  -  Deleting a warehouse stock object
   37. **GET**     api/products/store-stocks/  - Retrieving a list of all store stocks (Pagination and sorting implemented)
-  38. **GET**     api/products/store-stocks/?category=""&active=""&store=""&supplier=""&supplier=""  
-                  - (All Optional) query paramters for retrieving lists of 
-                  store stocks based on the category, being active or not and the particular store selling it as well as suppliers 
+  38. **GET**     api/products/store-stocks/?category=""&active=""&store=""&supplier=""&supplier=""  - (All Optional) query paramters for retrieving lists of store stocks based on the category, being active or not and the particular store selling it as well as suppliers 
   38. **GET**     api/products/store-stocks/<int:pk>  - Retrieving a single store stock resource
   39. **GET**     api/products/store-stocks/?barcode=(barcode)  - Retrieving a single store stock resource using a barcode parameter
   40. **POST**    api/products/store-stocks/  - Creating a new store stock object
@@ -132,9 +128,7 @@ coming soon
   42. **PATCH**   api/products/store-stocks/<int:pk>  -  Updating a store stock object by sending just the updated field
   43. **DELETE**  api/products/store-stocks/<int:pk>  -  Deleting a store stock object
   44. **GET**     api/products/  - Retrieving a list of all products (Pagination and sorting implemented)
-  45. **GET**     api/products/?category=""&active=""  
-                  - (All Optional) query paramters for retrieving lists of 
-                  store stocks based on the category and being active or not 
+  45. **GET**     api/products/?category=""&active=""  - (All Optional) query paramters for retrieving lists of store stocks based on the category and being active or not 
   46. **GET**     api/products/<int:pk>  - Retrieving a single product resource
   47. **PATCH**   api/products/<int:pk>  -  Updating a product object by sending just the updated field
   48. **DELETE**  api/products/<int:pk>  -  Deleting a store stock object
@@ -144,6 +138,35 @@ coming soon
   52. **PUT**     api/products/categories/<int:pk>  - Updating a product category by sending full object
   53. **PATCH**   api/products/categories/<int:pk>  - Updating a product category by sending just the updated field
   54. **DELETE**  api/products/categories/<int:pk>  - Deleting a product category object  
+
+**Sales**
+  55. **GET**     api/sales/customers/  - Retrieving a list of all customers (Pagination and sorting implemented)
+  56. **GET**     api/sales/customers/<int:pk>  - Retrieving a single customer resource
+  57. **POST**    api/sales/customers/  - Creating a new customers resource
+  58. **PUT**     api/sales/customers/<int:pk>  - Updating a customers resource by sending the whole object
+  59. **PATCH**   api/sales/customers/<int:pk>  -  Updating a single customer object by sending just the updated field
+  60. **DELETE**  api/sales/customers/<int:pk>  -  Deleting a customer object
+  61. **GET**     api/sales/orders/  - Retrieving a list of all orders (Pagination and sorting implemented)
+  62. **GET**     api/sales/orders/<int:pk>  - Retrieving a single order resource
+  63. **GET**     api/sales/orders/?customer=""&date-from=""&date-to=""&status=""  - Optional query parameters to filter lists of orders by customers, order dates and status
+  64. **POST**    api/sales/orders/  - Creating a new order resource
+  65. **PUT**     api/sales/orders/<int:pk>  - Updating an order resource by sending the whole object
+  66. **PATCH**   api/sales/orders/<int:pk>  -  Updating a single order object by sending just the updated field
+  67. **DELETE**  api/sales/orders/<int:pk>  -  Deleting an order object  
+  68. **GET**     api/sales/order-items/  - Retrieving a list of all order items (Pagination and sorting implemented)
+  69. **GET**     api/sales/order-items/<int:pk>  - Retrieving a single order item resource
+  70. **GET**     api/sales/order-items/?customer=""&date-from=""&date-to=""&status=""&product=""&store=""  - Optional query parameters to      filter lists of orders by customers, order dates, status, product and store
+  71. **POST**    api/sales/order-items/  - Creating a new order item resource
+  72. **PUT**     api/sales/order-items/<int:pk>  - Updating an order item resource by sending the whole object
+  73. **PATCH**   api/sales/order-items/<int:pk>  -  Updating a single order item object by sending just the updated field
+  74. **DELETE**  api/sales/order-items/<int:pk>  -  Deleting an order item object  
+  75. **GET**     api/sales/stock-transfers/  - Retrieving a list of all stock transfers (Pagination and sorting implemented)
+  69. **GET**     api/sales/stock-transfers/<int:pk>  - Retrieving a single stock transfer resource
+  70. **GET**     api/sales/stock-transfers/?warehouse=""&date-from=""&date-to=""&status=""&stock=""&store=""  - Optional query parameters to filter lists of stock transfers by source, destination, status, product and date transferred.
+  71. **POST**    api/sales/stock-transfers/  - Creating a new stock transfer resource
+  72. **PUT**     api/sales/stock-transfers/<int:pk>  - Updating a stock transfer resource by sending the whole object
+  73. **PATCH**   api/sales/stock-transfers/<int:pk>  -  Updating a single stock transfer object by sending just the updated field
+  74. **DELETE**  api/sales/stock-transfers/<int:pk>  -  Deleting a stock transfer object 
 
 ## Stretch Goals
 
