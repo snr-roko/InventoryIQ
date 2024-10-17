@@ -113,14 +113,14 @@ coming soon
 **Products**
 
   30. **GET**     api/products/warehouse-stocks/  - Retrieving a list of all warehouse stocks (Pagination and sorting implemented)
-  31. **GET**     api/products/warehouse-stocks/?category=""&active=""&warehouse=""&supplier=""&supplier=""  - (All Optional) query paramters for retrieving lists of warehouse stocks based on the category, being active or not and the particular warehouse housing it as well as suppliers 
+  31. **GET**     api/products/warehouse-stocks/?category=""&active=""&warehouse=""&supplier=""&supplier=""&low-stock=""  - (All Optional) query paramters for retrieving lists of warehouse stocks based on the category, being active or not, low stocks and the particular warehouse housing it as well as suppliers 
   32. **GET**     api/products/warehouse-stocks/<int:pk>  - Retrieving a single warehouse stock resource
   33. **POST**    api/products/warehouse-stocks/  - Creating a new warehouse stock object
   34. **PUT**     api/products/warehouse-stocks/<int:pk>  -  Updating a warehouse stock object by sending full object
   35. **PATCH**   api/products/warehouse-stocks/<int:pk>  -  Updating a warehouse stock object by sending just the updated field
   36. **DELETE**  api/products/warehouse-stocks/<int:pk>  -  Deleting a warehouse stock object
   37. **GET**     api/products/store-stocks/  - Retrieving a list of all store stocks (Pagination and sorting implemented)
-  38. **GET**     api/products/store-stocks/?category=""&active=""&store=""&supplier=""&supplier=""  - (All Optional) query paramters for retrieving lists of store stocks based on the category, being active or not and the particular store selling it as well as suppliers 
+  38. **GET**     api/products/store-stocks/?category=""&active=""&store=""&supplier=""&supplier=""&low-stock=""  - (All Optional) query paramters for retrieving lists of store stocks based on the category, being active or not, low stocks and the particular store selling it as well as suppliers 
   38. **GET**     api/products/store-stocks/<int:pk>  - Retrieving a single store stock resource
   39. **GET**     api/products/store-stocks/?barcode=(barcode)  - Retrieving a single store stock resource using a barcode parameter
   40. **POST**    api/products/store-stocks/  - Creating a new store stock object
@@ -128,7 +128,7 @@ coming soon
   42. **PATCH**   api/products/store-stocks/<int:pk>  -  Updating a store stock object by sending just the updated field
   43. **DELETE**  api/products/store-stocks/<int:pk>  -  Deleting a store stock object
   44. **GET**     api/products/  - Retrieving a list of all products (Pagination and sorting implemented)
-  45. **GET**     api/products/?category=""&active=""  - (All Optional) query paramters for retrieving lists of store stocks based on the category and being active or not 
+  45. **GET**     api/products/?category=""&active=""&low-stock=""  - (All Optional) query paramters for retrieving lists of store stocks based on the category, low stocks and being active or not 
   46. **GET**     api/products/<int:pk>  - Retrieving a single product resource
   47. **PATCH**   api/products/<int:pk>  -  Updating a product object by sending just the updated field
   48. **DELETE**  api/products/<int:pk>  -  Deleting a store stock object
@@ -161,12 +161,12 @@ coming soon
   73. **PATCH**   api/sales/order-items/<int:pk>  -  Updating a single order item object by sending just the updated field
   74. **DELETE**  api/sales/order-items/<int:pk>  -  Deleting an order item object  
   75. **GET**     api/sales/stock-transfers/  - Retrieving a list of all stock transfers (Pagination and sorting implemented)
-  69. **GET**     api/sales/stock-transfers/<int:pk>  - Retrieving a single stock transfer resource
-  70. **GET**     api/sales/stock-transfers/?warehouse=""&date-from=""&date-to=""&status=""&stock=""&store=""  - Optional query parameters to filter lists of stock transfers by source, destination, status, product and date transferred.
-  71. **POST**    api/sales/stock-transfers/  - Creating a new stock transfer resource
-  72. **PUT**     api/sales/stock-transfers/<int:pk>  - Updating a stock transfer resource by sending the whole object
-  73. **PATCH**   api/sales/stock-transfers/<int:pk>  -  Updating a single stock transfer object by sending just the updated field
-  74. **DELETE**  api/sales/stock-transfers/<int:pk>  -  Deleting a stock transfer object 
+  76. **GET**     api/sales/stock-transfers/<int:pk>  - Retrieving a single stock transfer resource
+  77. **GET**     api/sales/stock-transfers/?warehouse=""&date-from=""&date-to=""&status=""&stock=""&store=""  - Optional query parameters to filter lists of stock transfers by source, destination, status, product and date transferred.
+  78. **POST**    api/sales/stock-transfers/  - Creating a new stock transfer resource
+  79. **PUT**     api/sales/stock-transfers/<int:pk>  - Updating a stock transfer resource by sending the whole object
+  80. **PATCH**   api/sales/stock-transfers/<int:pk>  -  Updating a single stock transfer object by sending just the updated field
+  81. **DELETE**  api/sales/stock-transfers/<int:pk>  -  Deleting a stock transfer object 
 
 ## Stretch Goals
 

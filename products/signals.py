@@ -3,6 +3,12 @@ from django.dispatch import receiver
 from .models import WarehouseStock, StoreStock, Product
 from django.db.models import Sum
 
+def check_low_stocks(model):
+    if model.quantity <= model.reorder_level:
+        model.low_stock = True
+    else:
+        model.low_stock = False
+
 def calculate_storage_quantity(stock_code):
     """
     This function calculates the total quantity of a particular product.
@@ -21,23 +27,6 @@ def calculate_storage_quantity(stock_code):
     total_product_quantity = total_store_stock_quantity + total_warehouse_stock_quantity
     return total_product_quantity
 
-def check_low_stocks(model):
-    if model.quantity <= model.reorder_level:
-        model.low_stock = True
-    else:
-        model.low_stock = False
-    model.save()
-
-@receiver(post_save, sender=StoreStock)
-@receiver(post_save, sender=WarehouseStock)
-@receiver(post_save, sender=Product)
-def set_low_stocks(sender, instance, created, **kwargs):
-    """
-    This signal function is used to automatically set low stocks of the models to True when stocks are lower 
-    than reorder levels
-    """
-    check_low_stocks(instance)
-
 @receiver(post_save, sender=WarehouseStock)
 @receiver(post_save, sender=StoreStock)
 def create_update_product(sender, instance, created, **kwargs):
@@ -46,24 +35,43 @@ def create_update_product(sender, instance, created, **kwargs):
     store_stock entry is made.
     """
     stock_code = instance.stock_code
-    # checks if the product is already available in the product table since product_code is unique
-    product, created = Product.objects.get_or_create(product_code=stock_code)
+    # The code below disconnects the signal and saves the instance again after checking for low stocks
+    post_save.disconnect(create_update_product, sender=WarehouseStock)
+    post_save.disconnect(create_update_product, sender=StoreStock)
+    check_low_stocks(instance)
+    instance.save()
+    post_save.connect(create_update_product, sender=WarehouseStock)
+    post_save.connect(create_update_product, sender=StoreStock)
 
-    # if product not found and needs to be created, products fields are populated in this manner
-    if created: 
+    # checks if the product is already available in the product table since product_code is unique
+    try:
+        product= Product.objects.get(product_code=stock_code)
         product.name = instance.name
         product.category = instance.category
-        product.reorder_level = instance.reorder_level
-        product.product_code = stock_code
+        product.quantity = calculate_storage_quantity(stock_code)
+        product.active = True
+        product.save()
+    except Product.DoesNotExist:
+        # When the product has to be created
+        Product.objects.create(
+            name = instance.name,
+            product_code = stock_code,
+            category = instance.category,
+            quantity = calculate_storage_quantity(stock_code),
+            active = True,
+            reorder_level = instance.reorder_level or 0
+        )    
 
-    # we set the quantity field to the total quantity regardless of whether created or found to update quantity field
-    # we also set the product name, category and reorder levels if there has been an update
-    product.name = instance.name
-    product.category = instance.category
-    product.quantity = calculate_storage_quantity(stock_code)
-    product.active = True
-    product.save()
-
+@receiver(post_save, sender=Product)
+def set_low_stocks(sender, instance, created, **kwargs):
+    """
+    This signal function is used to automatically set low stocks of the models to True when stocks are lower 
+    than reorder levels
+    """
+    post_save.disconnect(set_low_stocks, sender=Product)
+    check_low_stocks(instance)
+    instance.save()
+    post_save.connect(set_low_stocks, sender=Product)
 
 @receiver(post_delete, sender=WarehouseStock)
 @receiver(post_delete, sender=StoreStock)
