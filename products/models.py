@@ -6,7 +6,8 @@ from django.utils import timezone
 class ProductCategory(models.Model):
     name = models.CharField(max_length=255, unique=True)
     active = models.BooleanField(default=True)
-    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name='categories_created')
+    # Set to null temporarily for testing
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name='categories_created', null=True)
 
     def __str__(self):
         return self.name
@@ -24,7 +25,8 @@ class WarehouseStock(models.Model):
     reorder_level = models.PositiveIntegerField()
     warehouse = models.ForeignKey(Warehouse, on_delete=models.PROTECT, related_name='warehouse_stocks', null=True, blank=True)
     supplier = models.ManyToManyField(Supplier, related_name='warehouse_stocks', blank=True)
-    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name='warehouse_stocks_created')
+    # Set to null temporarily for testing
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name='warehouse_stocks_created', null=True)
 
     class Meta:
         unique_together = ("stock_code", "warehouse")
@@ -46,7 +48,8 @@ class StoreStock(models.Model):
     store = models.ForeignKey(Store, on_delete=models.PROTECT, related_name='store_stocks', null=True, blank=True)
     supplier = models.ManyToManyField(Supplier, related_name='store_stocks', blank=True)
     barcode = models.CharField(max_length=13, blank=True, null=True)
-    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name='store_stocks_created')
+    # Set to null temporarily for testing
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name='store_stocks_created', null=True)
 
     class Meta:
         unique_together = ("stock_code", "store")

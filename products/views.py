@@ -4,7 +4,6 @@ from .serializers import WarehouseStockSerializer, StoreStockSerializer, Product
 from .permissions import WarehouseStockPermissions, StoreStockPermissions, ProductCategoryPermissions, ProductPermissions
 from rest_framework.filters import OrderingFilter
 from rest_framework.response import Response
-from storages.models import Warehouse
 
 class BaseViewSet(ModelViewSet):
     """
@@ -30,17 +29,17 @@ class WarehouseStockViewSet(BaseViewSet):
     ordering_fields = ["name", "stock_code", "category", "quantity", "active", "warehouse", "supplier", "low_stock"]
     ordering = ["stock_code"]    
 
-    def list(self, request, *args, **kwargs):
+    def get_queryset(self):
         """
         This seeks to serve a view add on for the warehouse stock view set when additional query parameters are added
         Specifically category, active, warehouse, supplier and low stock parameters
         """
         # Here, we retrieve each parameter
-        category_param = request.query_params.get("category")
-        active_param = request.query_params.get("active")
-        warehouse_param = request.query_params.get("warehouse")
-        supplier_params = request.query_params.getlist("supplier")
-        low_stock_param = request.query_params.get("low-stock")
+        category_param = self.request.query_params.get("category", None)
+        active_param = self.request.query_params.get("active", None)
+        warehouse_param = self.request.query_params.get("warehouse", None)
+        supplier_params = self.request.query_params.getlist("supplier", None)
+        low_stock_param = self.request.query_params.get("low-stock", None)
 
         # we create a dictionary to unpack into the model
         filterDict = dict()
@@ -61,9 +60,10 @@ class WarehouseStockViewSet(BaseViewSet):
         # Then we unpack the details of the filter dictionary.
         # This does the trick since if none of the parameters are available, nothing would be unpacked 
         # And thus the queryset will be the same as the instance queryset attibute
-        queryset = WarehouseStock.objects.filter(**filterDict).distinct()
-        serializer = self.serializer_class(queryset, many=True)
-        return Response(serializer.data)       
+        queryset = super().get_queryset()
+        if filterDict:
+            queryset = WarehouseStock.objects.filter(**filterDict).distinct()
+        return queryset       
 
 class StoreStockViewSet(BaseViewSet):
     queryset = StoreStock.objects.all()
@@ -73,17 +73,17 @@ class StoreStockViewSet(BaseViewSet):
     ordering_fields = ["name", "stock_code", "category", "quantity", "active", "store", "supplier", "low_stock"]
     ordering = ["stock_code"]    
 
-    def list(self, request, *args, **kwargs):
+    def get_queryset(self):
         """
         This seeks to serve a view add on for the store stock view set when additional query parameters are added
         Specifically category, active, and store, supplier and low stock parameters
         """
         # Here, we retrieve each parameter
-        category_param = request.query_params.get("category")
-        active_param = request.query_params.get("active")
-        store_param = request.query_params.get("store")
-        supplier_params = request.query_params.getlist("supplier")
-        low_stock_param = request.query_params.get("low-stock")
+        category_param = self.request.query_params.get("category")
+        active_param = self.request.query_params.get("active")
+        store_param = self.request.query_params.get("store")
+        supplier_params = self.request.query_params.getlist("supplier")
+        low_stock_param = self.request.query_params.get("low-stock")
 
         # we create a dictionary to unpack into the model
         filterDict = dict()
@@ -104,9 +104,11 @@ class StoreStockViewSet(BaseViewSet):
         # Then we unpack the details of the filter dictionary.
         # This does the trick since if none of the parameters are available, nothing would be unpacked 
         # And thus the queryset will be the same as the instance queryset attibute
-        queryset = StoreStock.objects.filter(**filterDict).distinct()
-        serializer = self.serializer_class(queryset, many=True)
-        return Response(serializer.data) 
+        queryset = super().get_queryset()
+        if filterDict:
+            queryset = StoreStock.objects.filter(**filterDict).distinct()
+
+        return queryset
           
     def retrieve(self, request, *args, **kwargs):
         """
@@ -128,15 +130,16 @@ class ProductViewSet(BaseViewSet):
     ordering_fields = ["name", "product_code", "category", "quantity", "active"]
     ordering = ["product_code"]  
 
-    def list(self, request, *args, **kwargs):
+    def get_queryset(self):
+        queryset = super().get_queryset()
         """
         This seeks to serve a view add on for the product view set when additional query parameters are added
         Specifically category, active and low stock parameters
         """
         # Here, we retrieve each parameter
-        category_param = request.query_params.get("category")
-        active_param = request.query_params.get("active")
-        low_stock_param = request.query_params.get("low-stock")
+        category_param = self.request.query_params.get("category")
+        active_param = self.request.query_params.get("active")
+        low_stock_param = self.request.query_params.get("low-stock")
 
         # we create a dictionary to unpack into the model
         filterDict = dict()
@@ -153,6 +156,6 @@ class ProductViewSet(BaseViewSet):
         # Then we unpack the details of the filter dictionary.
         # This does the trick since if none of the parameters are available, nothing would be unpacked 
         # And thus the queryset will be the same as the instance queryset attibute
-        queryset = Product.objects.filter(**filterDict)
-        serializer = self.serializer_class(queryset, many=True)
-        return Response(serializer.data)
+        if filterDict:
+            queryset = Product.objects.filter(**filterDict)
+        return queryset
