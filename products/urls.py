@@ -1,5 +1,5 @@
 from django.urls import path, include
-from .views import WarehouseStockViewSet, StoreStockViewSet, ProductViewSet, ProductCategoryViewSet
+from .views import WarehouseStockViewSet, StoreStockViewSet, ProductViewSet, ProductCategoryViewSet, BarcodeViewSet
 from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
@@ -10,4 +10,8 @@ router.register("categories", ProductCategoryViewSet, basename="categories")
 router.register("", ProductViewSet, basename="products")
 
 
-urlpatterns = router.urls
+urlpatterns = [
+    path("store-stocks/barcode/<int:pk>/", BarcodeViewSet.as_view(), name="barcode") 
+]
+
+urlpatterns += router.urls

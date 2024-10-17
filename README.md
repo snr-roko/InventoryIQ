@@ -122,7 +122,7 @@ coming soon
   37. **GET**     api/products/store-stocks/  - Retrieving a list of all store stocks (Pagination and sorting implemented)
   38. **GET**     api/products/store-stocks/?category=""&active=""&store=""&supplier=""&supplier=""&low-stock=""  - (All Optional) query paramters for retrieving lists of store stocks based on the category, being active or not, low stocks and the particular store selling it as well as suppliers 
   38. **GET**     api/products/store-stocks/<int:pk>  - Retrieving a single store stock resource
-  39. **GET**     api/products/store-stocks/?barcode=(barcode)  - Retrieving a single store stock resource using a barcode parameter
+  39. **GET**     api/products/store-stocks/barcode/<int:pk>  - Retrieving a single store stock resource using a barcode
   40. **POST**    api/products/store-stocks/  - Creating a new store stock object
   41. **PUT**     api/products/store-stocks/<int:pk>  -  Updating a store stock object by sending full object
   42. **PATCH**   api/products/store-stocks/<int:pk>  -  Updating a store stock object by sending just the updated field

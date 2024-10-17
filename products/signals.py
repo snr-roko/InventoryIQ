@@ -24,7 +24,7 @@ def calculate_storage_quantity(stock_code):
         stock_code = stock_code
     ).aggregate(Sum('quantity'))['quantity__sum'] or 0
 
-    total_product_quantity = total_store_stock_quantity + total_warehouse_stock_quantity
+    total_product_quantity = total_warehouse_stock_quantity + total_store_stock_quantity
     return total_product_quantity
 
 @receiver(post_save, sender=WarehouseStock)
@@ -89,6 +89,7 @@ def update_delete_product(sender, instance, **kwargs):
         total_quantity = calculate_storage_quantity(stock_code)
         # if total quantity is zero, we deactivate the product
         if total_quantity == 0:
+            product.quantity = total_quantity
             product.deactivate()
         # if the total quantity is still more than zero, meaning other storages have stock
         # we set the product quantity to that storage quantity

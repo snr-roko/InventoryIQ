@@ -24,11 +24,12 @@ class WarehouseStockPermissions(BasePermission):
 
 class StoreStockPermissions(BasePermission):
     """
-    Admins, manager, and Store managers have full permissions
+    Admins, manager, Store managers, and store staffs have permissions
     Except stock_code can not be updated
+    delete is not allowed for store staff
     All other roles do not have access to any actions
     """
-    allowed_roles = {'ADMIN', 'MANAGER', 'STORE_MANAGER'}
+    allowed_roles = {'ADMIN', 'MANAGER', 'STORE_MANAGER', 'STORE_STAFF'}
     def has_permission(self, request, view):
         if request.user.is_authenticated:
             return request.user.role in self.allowed_roles
@@ -39,8 +40,10 @@ class StoreStockPermissions(BasePermission):
             return request.data.get("stock_code") == obj.stock_code
         elif view.action == 'partial_update':
             return not request.data.get("stock_code")
+        elif view.action == 'destroy':
+            return request.user.role in {'ADMIN', 'MANAGER', 'STORE_MANAGER'}
         else:
-            return view.action in ["get", "retrieve", "destroy"]
+            return request.method in permissions.SAFE_METHODS
         
 class ProductCategoryPermissions(BasePermission):
     """

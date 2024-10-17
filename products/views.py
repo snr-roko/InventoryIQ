@@ -1,9 +1,11 @@
 from rest_framework.viewsets import ModelViewSet
+from rest_framework.generics import RetrieveAPIView
 from .models import WarehouseStock, StoreStock, Product, ProductCategory
 from .serializers import WarehouseStockSerializer, StoreStockSerializer, ProductSerializer, ProductCategorySerializer
 from .permissions import WarehouseStockPermissions, StoreStockPermissions, ProductCategoryPermissions, ProductPermissions
 from rest_framework.filters import OrderingFilter
 from rest_framework.response import Response
+from rest_framework import status
 
 class BaseViewSet(ModelViewSet):
     """
@@ -12,6 +14,19 @@ class BaseViewSet(ModelViewSet):
     """
     def perform_create(self, serializer):
         serializer.save(created_by = self.request.user)
+
+class BarcodeViewSet(RetrieveAPIView):
+    serializer_class = StoreStockSerializer
+    permission_classes = (StoreStockPermissions,) 
+
+    def retrieve(self, request, *args, **kwargs):
+        barcode = self.kwargs['pk']
+        try:
+            store_stock = StoreStock.objects.get(barcode=barcode)
+            serializer = self.serializer_class(store_stock)
+            return Response(serializer.data)
+        except StoreStock.DoesNotExist:
+            return Response(data="Store Stock not found. Barcode does not exist.", status=status.HTTP_404_NOT_FOUND)
 
 class ProductCategoryViewSet(BaseViewSet):
     queryset = ProductCategory.objects.all()
@@ -109,18 +124,6 @@ class StoreStockViewSet(BaseViewSet):
             queryset = StoreStock.objects.filter(**filterDict).distinct()
 
         return queryset
-          
-    def retrieve(self, request, *args, **kwargs):
-        """
-        This function serves to render barcode query parameters and retrieve an object based on the barcode.
-        """
-        barcode = request.query_params.get('barcode')
-        if barcode:
-            queryset = StoreStock.objects.filter(barcode=barcode)
-            serializer = self.serializer_class(queryset)
-        else:
-            serializer = self.serializer_class(self.queryset)
-        return Response(serializer.data)
 
 class ProductViewSet(BaseViewSet):
     queryset = Product.objects.all()
