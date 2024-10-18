@@ -26,22 +26,31 @@ InventoryIQ is a comprehensive Inventory Management API built with Django and Dj
 
 - User authentication and authorization
 - CRUD operations for inventory items and storages
+- Barcode Requests
 - Inventory change tracking
 - RESTful API design
 - JWT Authentication
 - Secure and efficient data management
+- Multi-store inventory management
+- Supplier management functionality
+- Detailed inventory reporting
+- Audit logs using Created_by fields
+- Dynamic inventory category management
 
 ## Technology Stack
 
 - Backend: Django
 - API Framework: Django REST Framework
-- Database: 
+- Database: PostgreSQL
 - Authentication: Django's built-in authentication system and JWT Authentication
-- Deployment: 
+- Deployment: PythonAnywhere
 
 ## Getting Started
 
-coming soon
+For detailed usage instructions and API documentation, please visit our live Swagger UI at [snrRoko.pythonanywhere.com/api/swagger-ui](https://snrRoko.pythonanywhere.com/api/swagger-ui).
+
+To request access or for any inquiries, please contact the project maintainer at [rbbagyei@outlook.com].
+
 ## Project Phases
 
 1. **Core API Development**
@@ -55,7 +64,6 @@ coming soon
    - Audit Logs using Created_by fields 
    - Dynamic inventory category management
 
-
 2. **Advanced Features Implementation**
    - Develop inventory change tracking system
    - Implement filters and sorting for inventory views
@@ -68,112 +76,29 @@ coming soon
 
 4. **Testing and Deployment**
    - Write unit and integration tests
-   - Deploy API to -----
+   - Deploy API to PythonAnywhere
    - Perform final testing and optimization in production environment
 
 ## API Endpoints
-**Accounts**
 
-   1. **POST**    api/accounts/users/register  - Registering a user
-   2. **POST**    api/accouns/users/login/  - Logging in a user
-   3. **POST**    api/accounts/users/login/refresh/  - Refreshing login token
-   4. **GET**     api/accounts/users/  - Retrieving collection of users (pagination as page and sorting as order parameters accepted)
-   5. **GET**     api/accounts/profile/me/  - Retrieving a logged-in user's profile 
-   6. **PUT**     api/accounts/profile-update/me/  - Updating a logged-in user's profile
+For a comprehensive list of API endpoints and their documentation, please visit our Swagger UI at [snrRoko.pythonanywhere.com/api/swagger-ui](https://snrRoko.pythonanywhere.com/api/swagger-ui).
 
-**Logs** __Pagination and Ordering parameters accepted__
+Here's a summary of the main endpoint categories:
 
-   7. **GET**     api/logs/users/<int:pk>/warehouse-stocks/ - Retrieving a list of warehouse stocks created by a user 
-   8. **GET**     api/logs/users/<int:pk>/store-stocks/  - Retrieving a list of store stocks created by a user 
-   9. **GET**     api/logs/users/<int:pk>/categories/  - Retrieving a list of categories created by a user 
-  10. **GET**     api/logs/users/<int:pk>/users/  - Retrieving a list of users created by a user 
-  11. **GET**     api/logs/users/<int:pk>/warehouses/  - Retrieving a list of warehouses created by a user 
-  12. **GET**     api/logs/users/<int:pk>/stores/  - Retrieving a list of stores created by a user
-  13. **GET**     api/logs/users/<int:pk>/suppliers/  - Retrieving a list of suppliers created by a user
-  14. **GET**     api/logs/users/<int:pk>/customers/  - Retrieving a list of customers created by a user
-  15. **GET**     api/logs/users/<int:pk>/order-items/  - Retrieving a list of Order Items created by a user
-  16. **GET**     api/logs/users/<int:pk>/orders/  - Retrieving a list of Orders created by a user
-  17. **GET**     api/logs/users/<int:pk>/stock-transfers/  - Retrieving a list of Stock Transfers created by a user
-
-**Storages**
-
-  18. **GET**     api/storages/warehouses/  - Retrieving a list of all warehouses (Pagination and sorting implemented)
-  19. **GET**     api/storages/warehouses/<int:pk>  - Retrieving a single warehouse resource
-  20. **POST**    api/storages/warehouses/  - Creating a new warehouse
-  21. **PUT**     api/storages/warehouses/<int:pk>  - Updating a warehouse object by sending full object
-  22. **PATCH**   api/storages/warehouses/<int:pk>  - Updating a warehouse object by sending just the updated field
-  23. **DELETE**  api/storages/warehouses/<int:pk>  - Deleting a warehouse object
-  24. **GET**     api/storages/stores/  - Retrieving a list of all stores (Pagination and sorting implemented)
-  25. **GET**     api/storages/stores/<int:pk>  - Retrieving a single store resource
-  26. **POST**    api/storages/stores/  - Creating a new store
-  27. **PUT**     api/storages/stores/<int:pk>  - Updating a store object by sending full object
-  28. **PATCH**   api/storages/stores/<int:pk>  - Updating a store object by sending just the updated field
-  29. **DELETE**  api/storages/stores/<int:pk>  - Deleting a store object
-
-**Products**
-
-  30. **GET**     api/products/warehouse-stocks/  - Retrieving a list of all warehouse stocks (Pagination and sorting implemented)
-  31. **GET**     api/products/warehouse-stocks/?category=""&active=""&warehouse=""&supplier=""&supplier=""&low-stock=""  - (All Optional) query paramters for retrieving lists of warehouse stocks based on the category, being active or not, low stocks and the particular warehouse housing it as well as suppliers 
-  32. **GET**     api/products/warehouse-stocks/<int:pk>  - Retrieving a single warehouse stock resource
-  33. **POST**    api/products/warehouse-stocks/  - Creating a new warehouse stock object
-  34. **PUT**     api/products/warehouse-stocks/<int:pk>  -  Updating a warehouse stock object by sending full object
-  35. **PATCH**   api/products/warehouse-stocks/<int:pk>  -  Updating a warehouse stock object by sending just the updated field
-  36. **DELETE**  api/products/warehouse-stocks/<int:pk>  -  Deleting a warehouse stock object
-  37. **GET**     api/products/store-stocks/  - Retrieving a list of all store stocks (Pagination and sorting implemented)
-  38. **GET**     api/products/store-stocks/?category=""&active=""&store=""&supplier=""&supplier=""&low-stock=""  - (All Optional) query paramters for retrieving lists of store stocks based on the category, being active or not, low stocks and the particular store selling it as well as suppliers 
-  38. **GET**     api/products/store-stocks/<int:pk>  - Retrieving a single store stock resource
-  39. **GET**     api/products/store-stocks/barcode/<int:pk>  - Retrieving a single store stock resource using a barcode
-  40. **POST**    api/products/store-stocks/  - Creating a new store stock object
-  41. **PUT**     api/products/store-stocks/<int:pk>  -  Updating a store stock object by sending full object
-  42. **PATCH**   api/products/store-stocks/<int:pk>  -  Updating a store stock object by sending just the updated field
-  43. **DELETE**  api/products/store-stocks/<int:pk>  -  Deleting a store stock object
-  44. **GET**     api/products/  - Retrieving a list of all products (Pagination and sorting implemented)
-  45. **GET**     api/products/?category=""&active=""&low-stock=""  - (All Optional) query paramters for retrieving lists of store stocks based on the category, low stocks and being active or not 
-  46. **GET**     api/products/<int:pk>  - Retrieving a single product resource
-  47. **PATCH**   api/products/<int:pk>  -  Updating a product object by sending just the updated field
-  48. **DELETE**  api/products/<int:pk>  -  Deleting a store stock object
-  49. **GET**     api/products/categories/  - Retrieving a list of all product categories (Pagination and sorting implemented)
-  50. **GET**     api/products/categories/<int:pk>  - Retrieving a single product category resource
-  51. **POST**    api/products/categories/  - Creating a new product category
-  52. **PUT**     api/products/categories/<int:pk>  - Updating a product category by sending full object
-  53. **PATCH**   api/products/categories/<int:pk>  - Updating a product category by sending just the updated field
-  54. **DELETE**  api/products/categories/<int:pk>  - Deleting a product category object  
-
-**Sales**
-  55. **GET**     api/sales/customers/  - Retrieving a list of all customers (Pagination and sorting implemented)
-  56. **GET**     api/sales/customers/<int:pk>  - Retrieving a single customer resource
-  57. **POST**    api/sales/customers/  - Creating a new customers resource
-  58. **PUT**     api/sales/customers/<int:pk>  - Updating a customers resource by sending the whole object
-  59. **PATCH**   api/sales/customers/<int:pk>  -  Updating a single customer object by sending just the updated field
-  60. **DELETE**  api/sales/customers/<int:pk>  -  Deleting a customer object
-  61. **GET**     api/sales/orders/  - Retrieving a list of all orders (Pagination and sorting implemented)
-  62. **GET**     api/sales/orders/<int:pk>  - Retrieving a single order resource
-  63. **GET**     api/sales/orders/?customer=""&date-from=""&date-to=""&status=""  - Optional query parameters to filter lists of orders by customers, order dates and status
-  64. **POST**    api/sales/orders/  - Creating a new order resource
-  65. **PUT**     api/sales/orders/<int:pk>  - Updating an order resource by sending the whole object
-  66. **PATCH**   api/sales/orders/<int:pk>  -  Updating a single order object by sending just the updated field
-  67. **DELETE**  api/sales/orders/<int:pk>  -  Deleting an order object  
-  68. **GET**     api/sales/order-items/  - Retrieving a list of all order items (Pagination and sorting implemented)
-  69. **GET**     api/sales/order-items/<int:pk>  - Retrieving a single order item resource
-  70. **GET**     api/sales/order-items/?customer=""&date-from=""&date-to=""&status=""&product=""&store=""  - Optional query parameters to      filter lists of orders by customers, order dates, status, product and store
-  71. **POST**    api/sales/order-items/  - Creating a new order item resource
-  72. **PUT**     api/sales/order-items/<int:pk>  - Updating an order item resource by sending the whole object
-  73. **PATCH**   api/sales/order-items/<int:pk>  -  Updating a single order item object by sending just the updated field
-  74. **DELETE**  api/sales/order-items/<int:pk>  -  Deleting an order item object  
-  75. **GET**     api/sales/stock-transfers/  - Retrieving a list of all stock transfers (Pagination and sorting implemented)
-  76. **GET**     api/sales/stock-transfers/<int:pk>  - Retrieving a single stock transfer resource
-  77. **GET**     api/sales/stock-transfers/?warehouse=""&date-from=""&date-to=""&status=""&stock=""&store=""  - Optional query parameters to filter lists of stock transfers by source, destination, status, product and date transferred.
-  78. **POST**    api/sales/stock-transfers/  - Creating a new stock transfer resource
-  79. **PUT**     api/sales/stock-transfers/<int:pk>  - Updating a stock transfer resource by sending the whole object
-  80. **PATCH**   api/sales/stock-transfers/<int:pk>  -  Updating a single stock transfer object by sending just the updated field
-  81. **DELETE**  api/sales/stock-transfers/<int:pk>  -  Deleting a stock transfer object 
+1. **Accounts**: User registration, login, and profile management
+2. **Logs**: Retrieving logs for various actions performed by users
+3. **Storages**: Managing warehouses and stores
+4. **Products**: CRUD operations for warehouse stocks, store stocks, and product categories
+5. **Sales**: Managing customers, orders, order items, and stock transfers
 
 ## Stretch Goals
 
 - Low stock alerts system 
+- Email System
+- Password Change Requests
 - Dynamic inventory category management
 - Automatic stock reordering suggestions
-
+- User Management Accross Storages 
 
 ## Timeline
 
@@ -181,7 +106,16 @@ This project is scheduled for development over a two-week period, with specific 
 
 ## Contributing
 
-coming soon
+We welcome contributions to the InventoryIQ project! If you're interested in contributing, please follow these steps:
+
+1. Fork the repository
+2. Create a new branch for your feature or bug fix
+3. Make your changes and commit them with clear, descriptive messages
+4. Push your changes to your fork
+5. Submit a pull request to the main repository
+
+Please ensure your code adheres to our coding standards and includes appropriate tests.
+
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
