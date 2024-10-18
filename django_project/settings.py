@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     # Third-Party Applications
     'rest_framework',
     'rest_framework_simplejwt',
+    'drf_spectacular'
 ]
 
 MIDDLEWARE = [
@@ -154,7 +155,15 @@ REST_FRAMEWORK = {
         "rest_framework.authentication.SessionAuthentication"
     ], 
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
-    "PAGE_SIZE": 15
+    "PAGE_SIZE": 15,
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema"
+}
+
+# Django Rest Framework Spectacular Schema
+SPECTACULAR_SETTINGS = {
+    "TITLE": "Inventory IQ",
+    "DESCRIPTION": "Robust Inventory Management System",
+    "VERSION": "1.0.0"
 }
 
 # Json Web Token
@@ -163,5 +172,5 @@ from datetime import timedelta
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
-    'SIGNING_KEY': "MakeJehovahProud",
+    'SIGNING_KEY': os.getenv("SIGNING_KEY"),
 }
