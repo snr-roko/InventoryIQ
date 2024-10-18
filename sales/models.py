@@ -30,10 +30,11 @@ class Order(models.Model):
     shipping_date = models.DateField(null=True, blank=True)
     total_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     status = models.CharField(max_length=100, choices=status, default='PENDING')
-    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name="orders_created")
+    # Setting to null temporarily for testing
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name="orders_created", null=True, blank=True)
 
     def __str__(self):
-        return f"{self.name} on {self.order_date}"
+        return f"{self.id} on {self.order_date}"
 
 class OrderItem(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.PROTECT, related_name="orderItems", null=True, blank=True)  
@@ -43,8 +44,8 @@ class OrderItem(models.Model):
     total_price = models.DecimalField(max_digits=10, decimal_places=2)
     order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name="orderItems")
     product = models.ForeignKey(StoreStock, on_delete=models.PROTECT, related_name="ordeItems")
-    store = models.ForeignKey(Store, on_delete=models.PROTECT, related_name="orderItems")
-    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="orderItems_created")
+    # Setting to null temporarily for testing
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="orderItems_created", null=True, blank=True)
 
     def __str__(self):
         return self.product
@@ -63,7 +64,8 @@ class StockTransfer(models.Model):
     quantity = models.PositiveIntegerField()
     reason = models.TextField()
     status = models.CharField(max_length=100, choices=transfer, default='PENDING')
-    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name='transfers_created')
+    # Setting to null temporarily for testing    
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name='transfers_created', null=True, blank=True)
 
     def __str__(self):
         return f"{self.stock} from {self.source} to {self.destination}"

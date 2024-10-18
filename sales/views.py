@@ -27,7 +27,7 @@ class OrderItemViewSet(BaseViewSet):
     serializer_class = OrderItemSerializer
     permission_classes = (OrderItemPermissions,)
     filter_backends = (OrderingFilter,)
-    ordering_fields = ("customer", "order_date", "price", "total_price", "order", "product", "store")
+    ordering_fields = ("customer", "order_date", "price", "total_price", "order", "product")
     ordering = ("order_date",)
 
     def get_queryset(self):
@@ -51,7 +51,7 @@ class OrderItemViewSet(BaseViewSet):
         if product_id:
             filter_kwargs['product'] = product_id
         if store_id:
-            filter_kwargs['store'] = store_id
+            filter_kwargs['product__store'] = store_id
 
         if order_date_from:
             parse_date_from = parse_dates(order_date_from)
@@ -84,10 +84,10 @@ class OrderViewSet(BaseViewSet):
         A dictionary is unpacked into the model to retrieve data based on the query parameters present.
         """
         queryset = super().get_queryset()
-        customer_id = request.query_params.get("customer")
-        order_date_from = request.query_params.get("date-from")
-        order_date_to = request.query_params.get("date-to")
-        status = request.query_params.get("status")
+        customer_id = self.request.query_params.get("customer")
+        order_date_from = self.request.query_params.get("date-from")
+        order_date_to = self.request.query_params.get("date-to")
+        status = self.request.query_params.get("status")
 
         filter_kwargs = dict()
         date_filter = Q()
@@ -122,12 +122,12 @@ class StockTransferViewSet(BaseViewSet):
     def get_queryset(self):
         queryset = super().get_queryset()
 
-        warehouse_id = request.query_params.get("warehouse")
-        store_id = request.query_params.get("store")
-        date_from = request.query_params.get("date-from")
-        date_to = request.query_params.get("date-to")
-        warehousestock_id = request.query_params.get("stock")
-        status = request.query_params.get("status")
+        warehouse_id = self.request.query_params.get("warehouse")
+        store_id = self.request.query_params.get("store")
+        date_from = self.request.query_params.get("date-from")
+        date_to = self.request.query_params.get("date-to")
+        warehousestock_id = self.request.query_params.get("stock")
+        status = self.request.query_params.get("status")
 
         filter_kwargs = dict()
         date_filter = Q()
