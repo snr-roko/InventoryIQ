@@ -85,7 +85,7 @@ class StoreStockViewSet(BaseViewSet):
     serializer_class = StoreStockSerializer
     permission_classes = (StoreStockPermissions,)
     filter_backends = (OrderingFilter,)
-    ordering_fields = ["name", "stock_code", "category", "quantity", "active", "store", "supplier", "low_stock"]
+    ordering_fields = ["name", "stock_code", "category", "quantity", "active", "store", "supplier", "low_stock", "price"]
     ordering = ["stock_code"]    
 
     def get_queryset(self):

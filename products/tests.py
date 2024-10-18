@@ -304,11 +304,11 @@ class StoreStockTests(TestCase):
         ])
 
         StoreStock.objects.bulk_create([
-            StoreStock(id=1, name="Samsang S21", stock_code="SAMSS2112256RED", quantity=20, reorder_level=10, category=ProductCategory(id=1, name="Phones"), barcode="2723747937124"),
-            StoreStock(id=2, name="Samsung S22", stock_code="SAMSS2216256BLUE", quantity=60, reorder_level=10, category=ProductCategory(id=1, name="Phones")),
-            StoreStock(id=3, name="Samsung S21", stock_code="SAMSS2112256WHITE", quantity=50, reorder_level=10, category=ProductCategory(id=1, name="Phones")),
-            StoreStock(id=4, name="Samsung S23", stock_code="SAMSS2312256RED", quantity=30, reorder_level=10, category=ProductCategory(id=1, name="Phones")),
-            StoreStock(id=5, name="Samsung S24", stock_code="SAMSS2412256RED", quantity=20, reorder_level=10, category=ProductCategory(id=1, name="Phones"))
+            StoreStock(id=1, name="Samsang S21", stock_code="SAMSS2112256RED", quantity=20, reorder_level=10, category=ProductCategory(id=1, name="Phones"), barcode="2723747937124", price=799.00),
+            StoreStock(id=2, name="Samsung S22", stock_code="SAMSS2216256BLUE", quantity=60, reorder_level=10, category=ProductCategory(id=1, name="Phones"), price=999.00),
+            StoreStock(id=3, name="Samsung S21", stock_code="SAMSS2112256WHITE", quantity=50, reorder_level=10, category=ProductCategory(id=1, name="Phones"), price=799.00),
+            StoreStock(id=4, name="Samsung S23", stock_code="SAMSS2312256RED", quantity=30, reorder_level=10, category=ProductCategory(id=1, name="Phones"), price=1100.00),
+            StoreStock(id=5, name="Samsung S24", stock_code="SAMSS2412256RED", quantity=20, reorder_level=10, category=ProductCategory(id=1, name="Phones"), price=1200.00)
         ])
 
     def get_token_for_user(self, user):
@@ -381,7 +381,8 @@ class StoreStockTests(TestCase):
             "quantity":150,
             "reorder_level":30,
             "category":2, 
-            "store": 1
+            "store": 1,
+            "price": 2000.00
         }
         token = self.get_token_for_user(self.store_manager_user)
         self.api.credentials(HTTP_AUTHORIZATION=f"Bearer {token}")
@@ -401,7 +402,8 @@ class StoreStockTests(TestCase):
             "quantity":150,
             "reorder_level":30,
             "category":2, 
-            "store": 1
+            "store": 1,
+            "price": 2000.00
         }
         token = self.get_token_for_user(self.warehouse_staff_user)
         self.api.credentials(HTTP_AUTHORIZATION=f"Bearer {token}")
@@ -482,7 +484,8 @@ class StoreStockTests(TestCase):
             "quantity":150,
             "reorder_level":30,
             "category":2, 
-            "store": 1
+            "store": 1,
+            "price": 2000.00
         }
         token = self.get_token_for_user(self.store_manager_user)
         self.api.credentials(HTTP_AUTHORIZATION=f"Bearer {token}")
@@ -511,7 +514,8 @@ class StoreStockTests(TestCase):
             "quantity":150,
             "reorder_level":30,
             "category":2, 
-            "store": 1
+            "store": 1,
+            "price": 2000.00
         }        
         token = self.get_token_for_user(self.manager_user)
         self.api.credentials(HTTP_AUTHORIZATION=f"Bearer {token}")

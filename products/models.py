@@ -48,6 +48,7 @@ class StoreStock(models.Model):
     store = models.ForeignKey(Store, on_delete=models.PROTECT, related_name='store_stocks', null=True, blank=True)
     supplier = models.ManyToManyField(Supplier, related_name='store_stocks', blank=True)
     barcode = models.CharField(max_length=13, blank=True, null=True)
+    price = models.PositiveIntegerField()
     # Set to null temporarily for testing
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name='store_stocks_created', null=True)
 

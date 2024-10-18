@@ -26,6 +26,7 @@ class StoreStockPermissions(BasePermission):
     """
     Admins, manager, Store managers, and store staffs have permissions
     Except stock_code can not be updated
+    Store Staff can not update Price
     delete is not allowed for store staff
     All other roles do not have access to any actions
     """
@@ -37,8 +38,12 @@ class StoreStockPermissions(BasePermission):
             return False
     def has_object_permission(self, request, view, obj):
         if view.action == 'update':
+            if request.user.role == 'STORE_STAFF':
+                request.data.get("price") == obj.price
             return request.data.get("stock_code") == obj.stock_code
         elif view.action == 'partial_update':
+            if request.user.role == 'STORE_STAFF':
+                not request.data.get("price")
             return not request.data.get("stock_code")
         elif view.action == 'destroy':
             return request.user.role in {'ADMIN', 'MANAGER', 'STORE_MANAGER'}
