@@ -5,6 +5,7 @@ from rest_framework import status
 from rest_framework_simplejwt.tokens import RefreshToken
 from .models import Order, OrderItem, StockTransfer
 from products.models import ProductCategory, StoreStock
+from django.urls import reverse
 
 User = get_user_model()
 
@@ -83,8 +84,22 @@ class OrderItems_OrdersTests(TestCase):
                       )
         ])
 
+    def get_token_for_user(user):
+        token_results = RefreshToken.for_user(user)
+        return str(token_results.access_token)
+    
     def test_order_orderItem_get(self):
         """
         Test to check for order Item and order lists endpoint
         """
+        token = self.get_token_for_user(self.store_staff_user)
+        self.api.credentials(HTTP_AUTHORIZATION=f"Bearer {token}")
+        orderItem_uri = reverse("order-items-list")
+        order_uri = reverse("orders-list")
+        orderItem_response = self.api.get(orderItem_uri)
+        order_response = self.api.get(order_uri)
+        self.assertEqual(orderItem_response.status_code, status.HTTP_200_OK)
+        self.assertEqual(order_response.status_code, status.HTTP_200_OK)
+        self.assertEqual(orderItem_response.data['results'])
+        
         

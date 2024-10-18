@@ -30,16 +30,16 @@ class OrderItemViewSet(BaseViewSet):
     ordering_fields = ("customer", "order_date", "price", "total_price", "order", "product", "store")
     ordering = ("order_date",)
 
-    def list(self, request, *args, **kwargs):
+    def get_queryset(self):
         """
-        Overriding the list method to add filtering using query parmaters
+        Overriding the get queryset method to add filtering using query parmaters
         """
-        customer_id = request.query_params.get("customer")
-        order_date_from = request.query_params.get("date-from")
-        order_date_to = request.query_params.get("date-to")
-        order_id = request.query_params.get("order")
-        product_id = request.query_params.get("product")
-        store_id = request.query_params.get("store")
+        customer_id = self.request.query_params.get("customer")
+        order_date_from = self.request.query_params.get("date-from")
+        order_date_to = self.request.query_params.get("date-to")
+        order_id = self.request.query_params.get("order")
+        product_id = self.request.query_params.get("product")
+        store_id = self.request.query_params.get("store")
 
         filter_kwargs = dict()
         date_filter = Q()
@@ -62,11 +62,13 @@ class OrderItemViewSet(BaseViewSet):
             if parse_date_to:
                 date_filter &= Q(order_date__lte=parse_date_to)
         
-        if filter_kwargs or date_filter:
-            self.queryset = OrderItem.objects.filter(**filter_kwargs).filter(date_filter)
+        queryset = super().get_queryset()
 
-        serializer = self.serializer_class(self.queryset, many=True)
-        return Response(serializer.data)
+        if filter_kwargs or date_filter:
+            queryset = OrderItem.objects.filter(**filter_kwargs).filter(date_filter)
+
+        return queryset
+        
 
 class OrderViewSet(BaseViewSet):
     queryset = Order.objects.all()
@@ -76,11 +78,12 @@ class OrderViewSet(BaseViewSet):
     ordering_fields = ("order_date", "total_amount", "status")
     ordering = ("order_date",)
 
-    def list(self, request, *args, **kwargs):
+    def get_queryset(self):
         """
-        The list method is overridden to add filters through query parameters to the url.
+        The get_queryset method is overridden to add filters through query parameters to the url.
         A dictionary is unpacked into the model to retrieve data based on the query parameters present.
         """
+        queryset = super().get_queryset()
         customer_id = request.query_params.get("customer")
         order_date_from = request.query_params.get("date-from")
         order_date_to = request.query_params.get("date-to")
@@ -104,10 +107,9 @@ class OrderViewSet(BaseViewSet):
                 date_filter &= Q(order_date__lte=parsed_order_date_to)
 
         if filter_kwargs or date_filter:
-            self.queryset = Order.objects.filter(**filter_kwargs).filter(date_filter)
+            queryset = Order.objects.filter(**filter_kwargs).filter(date_filter)
         
-        serializer = self.serializer_class(self.queryset, many=True)
-        return Response(serializer.data)
+        return queryset
 
 class StockTransferViewSet(BaseViewSet):
     queryset = StockTransfer.objects.all()
@@ -117,7 +119,9 @@ class StockTransferViewSet(BaseViewSet):
     ordering_fields = ("source", "destination", "date_transferred", "stock", "quantity", "status")
     ordering = ("date_transferred",)
 
-    def list(self, request, *args, **kwargs):
+    def get_queryset(self):
+        queryset = super().get_queryset()
+
         warehouse_id = request.query_params.get("warehouse")
         store_id = request.query_params.get("store")
         date_from = request.query_params.get("date-from")
@@ -148,7 +152,6 @@ class StockTransferViewSet(BaseViewSet):
                 date_filter = date_filter & Q(date_transferred__lte=parsed_date_to)
         
         if filter_kwargs or date_filter:
-            self.queryset = StockTransfer.objects.filter(**filter_kwargs).filter(date_filter)
+            queryset = StockTransfer.objects.filter(**filter_kwargs).filter(date_filter)
 
-        serializer = self.serializer_class(self.queryset, many=True)
-        return Response(serializer.data)
+        return queryset
