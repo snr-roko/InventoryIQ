@@ -59,7 +59,7 @@ def update_order_paid_cancelled(sender, instance, created, **kwargs):
 @receiver(post_save, sender=StockTransfer)
 def update_stock_transfer(sender, instance, created, **kwargs):
     """
-    This is a signal function that seeks to increase and decrease warehouse stocks and store stocks
+    This is a signal function that seeks to decrease and increase warehouse stocks and store stocks
     when a stock transfer is updated.
     """
     status = instance.status

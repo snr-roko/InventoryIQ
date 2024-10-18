@@ -4,8 +4,9 @@ from rest_framework.test import APIClient
 from rest_framework import status
 from rest_framework_simplejwt.tokens import RefreshToken
 from .models import Order, OrderItem, StockTransfer
-from products.models import ProductCategory, StoreStock
+from products.models import ProductCategory, StoreStock, WarehouseStock
 from django.urls import reverse
+from storages.models import Store, Warehouse
 
 User = get_user_model()
 
@@ -388,3 +389,264 @@ class OrderItems_OrdersTests(TestCase):
         self.assertEqual(order_response.status_code, status.HTTP_403_FORBIDDEN)
         all_orders = Order.objects.count()
         self.assertEqual(all_orders, 4)
+
+
+class StockTransferTests(TestCase):
+    def setUp(self):
+        self.api = APIClient()
+        self.manager_user = User.objects.create_user(
+            username = "managertestuser",
+            email = "managertestuser@test.com",
+            password = "secretpassword",
+            role = "MANAGER"
+        )
+        self.staff_user = User.objects.create_user(
+            username = "stafftestuser",
+            email = "stafftestuser@test.com",
+            password = "secretpassword",
+            role = "STAFF"
+        )
+        self.warehouse_manager_user = User.objects.create_user(
+            username = "warehousemanagertestuser",
+            email = "warehousemanagertestuser@test.com",
+            password = "secretpassword",
+            role = "WAREHOUSE_MANAGER"
+        )
+        self.warehouse_staff_user = User.objects.create_user(
+            username = "warehousestafftestuser",
+            email = "warehousestafftestuser@test.com",
+            password = "secretpassword",
+            role = "WAREHOUSE_STAFF"
+        )
+        self.store_manager_user = User.objects.create_user(
+            username = "storemanagertestuser",
+            email = "storemanagertestuser@test.com",
+            password = "secretpassword",
+            role = "STORE_MANAGER"
+        )
+        self.store_staff_user = User.objects.create_user(
+            username = "storestafftestuser",
+            email = "storestafftestuser@test.com",
+            password = "secretpassword",
+            role = "STORE_STAFF",
+        )
+
+        # 5 store objects created
+        Store.objects.bulk_create([
+            Store(id=1, name="Ejisu A", location ="Ejisu"), 
+            Store(id=2, name="Ejisu B", location="Ejisu"), 
+            Store(id=3, name="Tema A", location="Tema"),
+            Store(id=4, name="Tema B", location="Tema"), 
+            Store(id=5, name="Kasoa A", location="Kasoa")
+        ])
+
+        # 5 warehouse objects created
+        Warehouse.objects.bulk_create([
+            Warehouse(id=1, name="Ejisu A", location ="Ejisu"), 
+            Warehouse(id=2, name="Ejisu B", location="Ejisu"), 
+            Warehouse(id=3, name="Tema A", location="Tema"),
+            Warehouse(id=4, name="Tema B", location="Tema"), 
+            Warehouse(id=5, name="Kasoa A", location="Kasoa")
+        ])
+        # 5 categories created
+        ProductCategory.objects.bulk_create([
+            ProductCategory(id=1, name="Phones"),
+            ProductCategory(id=2, name="Laptops"),
+            ProductCategory(id=3, name="Monitors"),
+            ProductCategory(id=4, name="System Units")
+        ])
+        # 5 Store Stocks created
+        StoreStock.objects.bulk_create([
+            StoreStock(id=1, name="Samsung S21", stock_code="SAMSS2112256RED", quantity=20, reorder_level=10, category=ProductCategory(id=1, name="Phones"), barcode="2723747937124", price=799.00),
+            StoreStock(id=2, name="Samsung S22", stock_code="SAMSS2216256BLUE", quantity=60, reorder_level=10, category=ProductCategory(id=1, name="Phones"), price=999.00),
+            StoreStock(id=3, name="Samsung S21", stock_code="SAMSS2112256WHITE", quantity=50, reorder_level=10, category=ProductCategory(id=1, name="Phones"), price=799.00, store=Store(id=1, name="Ejisu A", location ="Ejisu")),
+            StoreStock(id=4, name="Samsung S23", stock_code="SAMSS2312256RED", quantity=30, reorder_level=10, category=ProductCategory(id=1, name="Phones"), price=1100.00),
+            StoreStock(id=5, name="Samsung S24", stock_code="SAMSS2412256RED", quantity=20, reorder_level=10, category=ProductCategory(id=1, name="Phones"), price=1200.00)
+        ])
+        
+        # 5 warehouse stocks created
+        WarehouseStock.objects.bulk_create([
+            WarehouseStock(id=1, name="Samsang S21", stock_code="SAMSS2112256RED", quantity=50, reorder_level=10, category=ProductCategory(id=1, name="Phones")),
+            WarehouseStock(id=2, name="Samsung S22", stock_code="SAMSS2216256BLUE", quantity=70, reorder_level=10, category=ProductCategory(id=1, name="Phones")),
+            WarehouseStock(id=3, name="Samsung S21", stock_code="SAMSS2112256WHITE", quantity=90, reorder_level=10, category=ProductCategory(id=1, name="Phones")),
+            WarehouseStock(id=4, name="Samsung S23", stock_code="SAMSS2312256RED", quantity=50, reorder_level=10, category=ProductCategory(id=1, name="Phones")),
+            WarehouseStock(id=5, name="Samsung S24", stock_code="SAMSS2412256RED", quantity=50, reorder_level=10, category=ProductCategory(id=1, name="Phones"))
+        ])
+
+        # 4 Stock Transfers created
+        StockTransfer.objects.bulk_create([
+            StockTransfer(
+                id=1,
+                source=Warehouse(id=1, name="Ejisu A", location ="Ejisu"),
+                destination=Store(id=3, name="Tema A", location="Tema"),
+                stock=WarehouseStock(id=1, name="Samsang S21", stock_code="SAMSS2112256RED", quantity=50, reorder_level=10, category=ProductCategory(id=1, name="Phones")),
+                quantity=20,
+                status='PENDING'
+            ),
+        StockTransfer(
+            id=2,
+            source=Warehouse(id=5, name="Kasoa A", location="Kasoa"),
+            destination=Store(id=1, name="Ejisu A", location ="Ejisu"),
+            stock=WarehouseStock(id=3, name="Samsung S21", stock_code="SAMSS2112256WHITE", quantity=90, reorder_level=10, category=ProductCategory(id=1, name="Phones")),
+            quantity=40,
+            status='PENDING'
+        )
+        ])
+
+    def get_token_for_user(self, user):
+        token_results = RefreshToken.for_user(user)
+        return str(token_results.access_token)
+
+    def test_stocktransfer_get(self):
+        """
+        Testing get requests of stock transfer endpoint
+        """
+        token = self.get_token_for_user(self.warehouse_manager_user)
+        self.api.credentials(HTTP_AUTHORIZATION=f"Bearer {token}")
+        uri = reverse("stock-transfers-list")
+        response = self.api.get(uri)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data['results']), 2)
+
+    def test_stocktransfer_get_denied(self):
+        """
+        Testing get requests by an unpermitted user
+        """
+        token = self.get_token_for_user(self.warehouse_staff_user)
+        self.api.credentials(HTTP_AUTHORIZATION=f"Bearer {token}")
+        uri = reverse("stock-transfers-list")
+        response = self.api.get(uri)
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_stocktransfer_retrieve(self):
+        """
+        Testing one stock transfer get endpoint
+        """
+        token = self.get_token_for_user(self.warehouse_manager_user)
+        self.api.credentials(HTTP_AUTHORIZATION=f"Bearer {token}")
+        uri = reverse("stock-transfers-detail", args=[1])
+        response = self.api.get(uri)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertTrue(isinstance(response.data, dict))
+        self.assertEqual(response.data['destination'], 3)
+
+    def test_stocktransfer_retrieve_denied(self):
+        """
+        Testing one stock transfer get endpoint by an unpermitted user
+        """
+        token = self.get_token_for_user(self.warehouse_staff_user)
+        self.api.credentials(HTTP_AUTHORIZATION=f"Bearer {token}")
+        uri = reverse("stock-transfers-detail", args=[1])
+        response = self.api.get(uri)
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_stocktransfer_create(self):
+        """
+        Testing of stocktransfer creation endpoint
+        """
+        new_stock_transfer = {
+            "source": 5,
+            "destination": 2,
+            "quantity": 30,
+            "stock": 3,
+            "status": "PENDING", 
+            "reason": "Store Requested"
+        }
+
+        token = self.get_token_for_user(self.warehouse_manager_user)
+        self.api.credentials(HTTP_AUTHORIZATION=f"Bearer {token}")
+        uri = reverse("stock-transfers-list")
+        response = self.api.post(uri, new_stock_transfer)
+        all_stock_transfers = StockTransfer.objects.count()
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertTrue(isinstance(response.data, dict))
+        self.assertEqual(response.data['destination'], 2)
+        self.assertEqual(all_stock_transfers, 3)
+
+    def test_stocktransfer_create_denied(self):
+        """
+        Testing of stocktransfer creation endpoint denial by creating with status received
+        """
+        new_stock_transfer = {
+            "source": 5,
+            "destination": 2,
+            "quantity": 30,
+            "stock": 3,
+            "status": "RECEIVED" 
+        }
+
+        token = self.get_token_for_user(self.warehouse_manager_user)
+        self.api.credentials(HTTP_AUTHORIZATION=f"Bearer {token}")
+        uri = reverse("stock-transfers-list")
+        response = self.api.post(uri, new_stock_transfer)
+        all_stock_transfers = StockTransfer.objects.count()
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(all_stock_transfers, 2)
+
+    def test_stocktransfer_update(self):
+        """
+        Testing for stocktransfer updates and signals associated
+        """
+        update_stock_transfer = {
+            "status": "RECEIVED" 
+        }
+
+        token = self.get_token_for_user(self.store_manager_user)
+        self.api.credentials(HTTP_AUTHORIZATION=f"Bearer {token}")
+        uri = reverse("stock-transfers-detail", args=[2])
+        response = self.api.patch(uri, update_stock_transfer)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['status'], "RECEIVED")
+        self.assertTrue(isinstance(response.data, dict))
+
+        # Checking Warehouse Stocks and Store Stocks for decrease and increase
+        Warehouse_quantity = WarehouseStock.objects.get(id=3).quantity
+        store_quantity = StoreStock.objects.get(id=3).quantity
+
+        # asserting quantity
+        self.assertEqual(Warehouse_quantity, 50)
+        self.assertEqual(store_quantity, 90)
+
+    def stocktransfer_update_denied(self):
+        # Stock Transfer update denial by an unpermitted action of a user
+        update_stock_transfer = {
+            "status": "RECEIVED" 
+        }
+
+        token = self.get_token_for_user(self.warehouse_manager_user)
+        self.api.credentials(HTTP_AUTHORIZATION=f"Bearer {token}")
+        uri = reverse("stock-transfers-detail", args=[2])
+        response = self.api.patch(uri, update_stock_transfer)
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    def stocktransfer_deletion(self):
+        """
+        Testing for stock transfer deletion endpoint
+        """
+        token = self.get_token_for_user(self.warehouse_manager_user)
+        self.api.credentials(HTTP_AUTHORIZATION=f"Bearer {token}")
+        uri = reverse("stock-transfers-detail", args=[2])
+        response = self.api.delete(uri)
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        all_stock_transfers = StockTransfer.objects.count()
+        self.assertEqual(all_stock_transfers, 1)
+
+    def stocktransfer_deletion_denied(self):
+        """
+        Testing for stock transfer deletion denial by unpermitted action
+        """
+        update_stock_transfer = {
+            "status": "RECEIVED" 
+        }
+
+        token = self.get_token_for_user(self.store_manager_user)
+        self.api.credentials(HTTP_AUTHORIZATION=f"Bearer {token}")
+        uri = reverse("stock-transfers-detail", args=[2])
+        self.api.patch(uri, update_stock_transfer)
+
+        # deleting a received stock transfer
+        response = self.api.delete(uri)
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        all_store_transfers = StockTransfer.objects.count()
+        self.assertEqual(all_store_transfers, 2)
+
