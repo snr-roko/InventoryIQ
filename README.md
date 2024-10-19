@@ -41,7 +41,7 @@ InventoryIQ is a comprehensive Inventory Management API built with Django and Dj
 
 - Backend: Django
 - API Framework: Django REST Framework
-- Database: PostgreSQL
+- Database: MySQL
 - Authentication: Django's built-in authentication system and JWT Authentication
 - Deployment: PythonAnywhere
 
