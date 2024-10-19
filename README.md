@@ -82,78 +82,90 @@ To request access or for any inquiries, please contact the project maintainer at
 ## API Endpoints
 
 Below is a comprehensive table of all API endpoints. For interactive documentation, please visit our Swagger UI at [snrRoko.pythonanywhere.com/api/schema/swagger-ui](https://snrRoko.pythonanywhere.com/api/schema/swagger-ui).
-
-| Category | Method | Endpoint | Description |
-|----------|--------|----------|-------------|
-| **Accounts** | POST | [snrroko.pythonanywhere.com/api/accounts/users/register](https://snrroko.pythonanywhere.com/api/accounts/users/register) | Register a new user |
-| | POST | [snrroko.pythonanywhere.com/api/accounts/users/login/](https://snrroko.pythonanywhere.com/api/accounts/users/login/) | Log in a user |
-| | POST | [snrroko.pythonanywhere.com/api/accounts/users/login/refresh/](https://snrroko.pythonanywhere.com/api/accounts/users/login/refresh/) | Refresh login token |
-| | GET | [snrroko.pythonanywhere.com/api/accounts/users/](https://snrroko.pythonanywhere.com/api/accounts/users/) | Retrieve collection of users |
-| | GET | [snrroko.pythonanywhere.com/api/accounts/profile/me/](https://snrroko.pythonanywhere.com/api/accounts/profile/me/) | Retrieve logged-in user's profile |
-| | PUT | [snrroko.pythonanywhere.com/api/accounts/profile-update/me/](https://snrroko.pythonanywhere.com/api/accounts/profile-update/me/) | Update logged-in user's profile |
-| **Logs** | GET | [snrroko.pythonanywhere.com/api/logs/users/{pk}/warehouse-stocks/](https://snrroko.pythonanywhere.com/api/logs/users/{pk}/warehouse-stocks/) | Retrieve warehouse stocks created by a user |
-| | GET | [snrroko.pythonanywhere.com/api/logs/users/{pk}/store-stocks/](https://snrroko.pythonanywhere.com/api/logs/users/{pk}/store-stocks/) | Retrieve store stocks created by a user |
-| | GET | [snrroko.pythonanywhere.com/api/logs/users/{pk}/categories/](https://snrroko.pythonanywhere.com/api/logs/users/{pk}/categories/) | Retrieve categories created by a user |
-| | GET | [snrroko.pythonanywhere.com/api/logs/users/{pk}/users/](https://snrroko.pythonanywhere.com/api/logs/users/{pk}/users/) | Retrieve users created by a user |
-| | GET | [snrroko.pythonanywhere.com/api/logs/users/{pk}/warehouses/](https://snrroko.pythonanywhere.com/api/logs/users/{pk}/warehouses/) | Retrieve warehouses created by a user |
-| | GET | [snrroko.pythonanywhere.com/api/logs/users/{pk}/stores/](https://snrroko.pythonanywhere.com/api/logs/users/{pk}/stores/) | Retrieve stores created by a user |
-| | GET | [snrroko.pythonanywhere.com/api/logs/users/{pk}/suppliers/](https://snrroko.pythonanywhere.com/api/logs/users/{pk}/suppliers/) | Retrieve suppliers created by a user |
-| | GET | [snrroko.pythonanywhere.com/api/logs/users/{pk}/customers/](https://snrroko.pythonanywhere.com/api/logs/users/{pk}/customers/) | Retrieve customers created by a user |
-| | GET | [snrroko.pythonanywhere.com/api/logs/users/{pk}/order-items/](https://snrroko.pythonanywhere.com/api/logs/users/{pk}/order-items/) | Retrieve order items created by a user |
-| | GET | [snrroko.pythonanywhere.com/api/logs/users/{pk}/orders/](https://snrroko.pythonanywhere.com/api/logs/users/{pk}/orders/) | Retrieve orders created by a user |
-| | GET | [snrroko.pythonanywhere.com/api/logs/users/{pk}/stock-transfers/](https://snrroko.pythonanywhere.com/api/logs/users/{pk}/stock-transfers/) | Retrieve stock transfers created by a user |
-| **Storages** | GET | [snrroko.pythonanywhere.com/api/storages/warehouses/](https://snrroko.pythonanywhere.com/api/storages/warehouses/) | Retrieve list of all warehouses |
-| | GET | [snrroko.pythonanywhere.com/api/storages/warehouses/{pk}](https://snrroko.pythonanywhere.com/api/storages/warehouses/{pk}) | Retrieve a single warehouse |
-| | POST | [snrroko.pythonanywhere.com/api/storages/warehouses/](https://snrroko.pythonanywhere.com/api/storages/warehouses/) | Create a new warehouse |
-| | PUT | [snrroko.pythonanywhere.com/api/storages/warehouses/{pk}](https://snrroko.pythonanywhere.com/api/storages/warehouses/{pk}) | Update a warehouse (full update) |
-| | PATCH | [snrroko.pythonanywhere.com/api/storages/warehouses/{pk}](https://snrroko.pythonanywhere.com/api/storages/warehouses/{pk}) | Update a warehouse (partial update) |
-| | DELETE | [snrroko.pythonanywhere.com/api/storages/warehouses/{pk}](https://snrroko.pythonanywhere.com/api/storages/warehouses/{pk}) | Delete a warehouse |
-| | GET | [snrroko.pythonanywhere.com/api/storages/stores/](https://snrroko.pythonanywhere.com/api/storages/stores/) | Retrieve list of all stores |
-| | GET | [snrroko.pythonanywhere.com/api/storages/stores/{pk}](https://snrroko.pythonanywhere.com/api/storages/stores/{pk}) | Retrieve a single store |
-| | POST | [snrroko.pythonanywhere.com/api/storages/stores/](https://snrroko.pythonanywhere.com/api/storages/stores/) | Create a new store |
-| | PUT | [snrroko.pythonanywhere.com/api/storages/stores/{pk}](https://snrroko.pythonanywhere.com/api/storages/stores/{pk}) | Update a store (full update) |
-| | PATCH | [snrroko.pythonanywhere.com/api/storages/stores/{pk}](https://snrroko.pythonanywhere.com/api/storages/stores/{pk}) | Update a store (partial update) |
-| | DELETE | [snrroko.pythonanywhere.com/api/storages/stores/{pk}](https://snrroko.pythonanywhere.com/api/storages/stores/{pk}) | Delete a store |
-| **Products** | GET | [snrroko.pythonanywhere.com/api/products/warehouse-stocks/](https://snrroko.pythonanywhere.com/api/products/warehouse-stocks/) | Retrieve list of all warehouse stocks |
-| | GET | [snrroko.pythonanywhere.com/api/products/warehouse-stocks/{pk}](https://snrroko.pythonanywhere.com/api/products/warehouse-stocks/{pk}) | Retrieve a single warehouse stock |
-| | POST | [snrroko.pythonanywhere.com/api/products/warehouse-stocks/](https://snrroko.pythonanywhere.com/api/products/warehouse-stocks/) | Create a new warehouse stock |
-| | PUT | [snrroko.pythonanywhere.com/api/products/warehouse-stocks/{pk}](https://snrroko.pythonanywhere.com/api/products/warehouse-stocks/{pk}) | Update a warehouse stock (full update) |
-| | PATCH | [snrroko.pythonanywhere.com/api/products/warehouse-stocks/{pk}](https://snrroko.pythonanywhere.com/api/products/warehouse-stocks/{pk}) | Update a warehouse stock (partial update) |
-| | DELETE | [snrroko.pythonanywhere.com/api/products/warehouse-stocks/{pk}](https://snrroko.pythonanywhere.com/api/products/warehouse-stocks/{pk}) | Delete a warehouse stock |
-| | GET | [snrroko.pythonanywhere.com/api/products/store-stocks/](https://snrroko.pythonanywhere.com/api/products/store-stocks/) | Retrieve list of all store stocks |
-| | GET | [snrroko.pythonanywhere.com/api/products/store-stocks/{pk}](https://snrroko.pythonanywhere.com/api/products/store-stocks/{pk}) | Retrieve a single store stock |
-| | GET | [snrroko.pythonanywhere.com/api/products/store-stocks/barcode/{pk}](https://snrroko.pythonanywhere.com/api/products/store-stocks/barcode/{pk}) | Retrieve a store stock by barcode |
-| | POST | [snrroko.pythonanywhere.com/api/products/store-stocks/](https://snrroko.pythonanywhere.com/api/products/store-stocks/) | Create a new store stock |
-| | PUT | [snrroko.pythonanywhere.com/api/products/store-stocks/{pk}](https://snrroko.pythonanywhere.com/api/products/store-stocks/{pk}) | Update a store stock (full update) |
-| | PATCH | [snrroko.pythonanywhere.com/api/products/store-stocks/{pk}](https://snrroko.pythonanywhere.com/api/products/store-stocks/{pk}) | Update a store stock (partial update) |
-| | DELETE | [snrroko.pythonanywhere.com/api/products/store-stocks/{pk}](https://snrroko.pythonanywhere.com/api/products/store-stocks/{pk}) | Delete a store stock |
-| | GET | [snrroko.pythonanywhere.com/api/products/](https://snrroko.pythonanywhere.com/api/products/) | Retrieve list of all products |
-| | GET | [snrroko.pythonanywhere.com/api/products/{pk}](https://snrroko.pythonanywhere.com/api/products/{pk}) | Retrieve a single product |
-| | PATCH | [snrroko.pythonanywhere.com/api/products/{pk}](https://snrroko.pythonanywhere.com/api/products/{pk}) | Update a product (partial update) |
-| | DELETE | [snrroko.pythonanywhere.com/api/products/{pk}](https://snrroko.pythonanywhere.com/api/products/{pk}) | Delete a product |
-| | GET | [snrroko.pythonanywhere.com/api/products/categories/](https://snrroko.pythonanywhere.com/api/products/categories/) | Retrieve list of all product categories |
-| | GET | [snrroko.pythonanywhere.com/api/products/categories/{pk}](https://snrroko.pythonanywhere.com/api/products/categories/{pk}) | Retrieve a single product category |
-| | POST | [snrroko.pythonanywhere.com/api/products/categories/](https://snrroko.pythonanywhere.com/api/products/categories/) | Create a new product category |
-| | PUT | [snrroko.pythonanywhere.com/api/products/categories/{pk}](https://snrroko.pythonanywhere.com/api/products/categories/{pk}) | Update a product category (full update) |
-| | PATCH | [snrroko.pythonanywhere.com/api/products/categories/{pk}](https://snrroko.pythonanywhere.com/api/products/categories/{pk}) | Update a product category (partial update) |
-| | DELETE | [snrroko.pythonanywhere.com/api/products/categories/{pk}](https://snrroko.pythonanywhere.com/api/products/categories/{pk}) | Delete a product category |
-| **Sales** | GET | [snrroko.pythonanywhere.com/api/sales/customers/](https://snrroko.pythonanywhere.com/api/sales/customers/) | Retrieve list of all customers |
-| | GET | [snrroko.pythonanywhere.com/api/sales/customers/{pk}](https://snrroko.pythonanywhere.com/api/sales/customers/{pk}) | Retrieve a single customer |
-| | POST | [snrroko.pythonanywhere.com/api/sales/customers/](https://snrroko.pythonanywhere.com/api/sales/customers/) | Create a new customer |
-| | PUT | [snrroko.pythonanywhere.com/api/sales/customers/{pk}](https://snrroko.pythonanywhere.com/api/sales/customers/{pk}) | Update a customer (full update) |
-| | PATCH | [snrroko.pythonanywhere.com/api/sales/customers/{pk}](https://snrroko.pythonanywhere.com/api/sales/customers/{pk}) | Update a customer (partial update) |
-| | DELETE | [snrroko.pythonanywhere.com/api/sales/customers/{pk}](https://snrroko.pythonanywhere.com/api/sales/customers/{pk}) | Delete a customer |
-| | GET | [snrroko.pythonanywhere.com/api/sales/orders/](https://snrroko.pythonanywhere.com/api/sales/orders/) | Retrieve list of all orders |
-| | GET | [snrroko.pythonanywhere.com/api/sales/orders/{pk}](https://snrroko.pythonanywhere.com/api/sales/orders/{pk}) | Retrieve a single order |
-| | POST | [snrroko.pythonanywhere.com/api/sales/orders/](https://snrroko.pythonanywhere.com/api/sales/orders/) | Create a new order |
-| | PUT | [snrroko.pythonanywhere.com/api/sales/orders/{pk}](https://snrroko.pythonanywhere.com/api/sales/orders/{pk}) | Update an order (full update) |
-| | PATCH | [snrroko.pythonanywhere.com/api/sales/orders/{pk}](https://snrroko.pythonanywhere.com/api/sales/orders/{pk}) | Update an order (partial update) |
-| | DELETE | [snrroko.pythonanywhere.com/api/sales/orders/{pk}](https://snrroko.pythonanywhere.com/api/sales/orders/{pk}) | Delete an order |
-| | GET | [snrroko.pythonanywhere.com/api/sales/order-items/](https://snrroko.pythonanywhere.com/api/sales/order-items/) | Retrieve list of all order items |
-| | GET | [snrroko.pythonanywhere.com/api/sales/order-items/{pk}](https://snrroko.pythonanywhere.com/api/sales/order-items/{pk}) | Retrieve a single order item |
-| | POST | [snrroko.pythonanywhere.com/api/sales/order-items/](https://snrroko.pythonanywhere.com/api/sales/order-items/) | Create a new order item |
-| | PUT | [snrroko.pythonanywhere.com/api/sales/order-items/{pk}](https://snrroko.pythonanywhere.com/api/sales
-
+| Number | Method | Endpoint | Description |
+|--------|--------|----------|-------------|
+| 1 | POST | snrroko.pythonanywhere.com/api/accounts/users/register | Registering a user |
+| 2 | POST | snrroko.pythonanywhere.com/api/accouns/users/login/ | Logging in a user |
+| 3 | POST | snrroko.pythonanywhere.com/api/accounts/users/login/refresh/ | Refreshing login token |
+| 4 | GET | snrroko.pythonanywhere.com/api/accounts/users/ | Retrieving collection of users (pagination as page and sorting as order parameters accepted) |
+| 5 | GET | snrroko.pythonanywhere.com/api/accounts/profile/me/ | Retrieving a logged-in user's profile |
+| 6 | PUT | snrroko.pythonanywhere.com/api/accounts/profile-update/me/ | Updating a logged-in user's profile |
+| 7 | GET | snrroko.pythonanywhere.com/api/logs/users/<int:pk>/warehouse-stocks/ | Retrieving a list of warehouse stocks created by a user |
+| 8 | GET | snrroko.pythonanywhere.com/api/logs/users/<int:pk>/store-stocks/ | Retrieving a list of store stocks created by a user |
+| 9 | GET | snrroko.pythonanywhere.com/api/logs/users/<int:pk>/categories/ | Retrieving a list of categories created by a user |
+| 10 | GET | snrroko.pythonanywhere.com/api/logs/users/<int:pk>/users/ | Retrieving a list of users created by a user |
+| 11 | GET | snrroko.pythonanywhere.com/api/logs/users/<int:pk>/warehouses/ | Retrieving a list of warehouses created by a user |
+| 12 | GET | snrroko.pythonanywhere.com/api/logs/users/<int:pk>/stores/ | Retrieving a list of stores created by a user |
+| 13 | GET | snrroko.pythonanywhere.com/api/logs/users/<int:pk>/suppliers/ | Retrieving a list of suppliers created by a user |
+| 14 | GET | snrroko.pythonanywhere.com/api/logs/users/<int:pk>/customers/ | Retrieving a list of customers created by a user |
+| 15 | GET | snrroko.pythonanywhere.com/api/logs/users/<int:pk>/order-items/ | Retrieving a list of Order Items created by a user |
+| 16 | GET | snrroko.pythonanywhere.com/api/logs/users/<int:pk>/orders/ | Retrieving a list of Orders created by a user |
+| 17 | GET | snrroko.pythonanywhere.com/api/logs/users/<int:pk>/stock-transfers/ | Retrieving a list of Stock Transfers created by a user |
+| 18 | GET | snrroko.pythonanywhere.com/api/storages/warehouses/ | Retrieving a list of all warehouses (Pagination and sorting implemented) |
+| 19 | GET | snrroko.pythonanywhere.com/api/storages/warehouses/<int:pk> | Retrieving a single warehouse resource |
+| 20 | POST | snrroko.pythonanywhere.com/api/storages/warehouses/ | Creating a new warehouse |
+| 21 | PUT | snrroko.pythonanywhere.com/api/storages/warehouses/<int:pk> | Updating a warehouse object by sending full object |
+| 22 | PATCH | snrroko.pythonanywhere.com/api/storages/warehouses/<int:pk> | Updating a warehouse object by sending just the updated field |
+| 23 | DELETE | snrroko.pythonanywhere.com/api/storages/warehouses/<int:pk> | Deleting a warehouse object |
+| 24 | GET | snrroko.pythonanywhere.com/api/storages/stores/ | Retrieving a list of all stores (Pagination and sorting implemented) |
+| 25 | GET | snrroko.pythonanywhere.com/api/storages/stores/<int:pk> | Retrieving a single store resource |
+| 26 | POST | snrroko.pythonanywhere.com/api/storages/stores/ | Creating a new store |
+| 27 | PUT | snrroko.pythonanywhere.com/api/storages/stores/<int:pk> | Updating a store object by sending full object |
+| 28 | PATCH | snrroko.pythonanywhere.com/api/storages/stores/<int:pk> | Updating a store object by sending just the updated field |
+| 29 | DELETE | snrroko.pythonanywhere.com/api/storages/stores/<int:pk> | Deleting a store object |
+| 30 | GET | snrroko.pythonanywhere.com/api/products/warehouse-stocks/ | Retrieving a list of all warehouse stocks (Pagination and sorting implemented) |
+| 31 | GET | snrroko.pythonanywhere.com/api/products/warehouse-stocks/?category=""&active=""&warehouse=""&supplier=""&supplier=""&low-stock="" | (All Optional) query parameters for retrieving lists of warehouse stocks based on the category, being active or not, low stocks and the particular warehouse housing it as well as suppliers |
+| 32 | GET | snrroko.pythonanywhere.com/api/products/warehouse-stocks/<int:pk> | Retrieving a single warehouse stock resource |
+| 33 | POST | snrroko.pythonanywhere.com/api/products/warehouse-stocks/ | Creating a new warehouse stock object |
+| 34 | PUT | snrroko.pythonanywhere.com/api/products/warehouse-stocks/<int:pk> | Updating a warehouse stock object by sending full object |
+| 35 | PATCH | snrroko.pythonanywhere.com/api/products/warehouse-stocks/<int:pk> | Updating a warehouse stock object by sending just the updated field |
+| 36 | DELETE | snrroko.pythonanywhere.com/api/products/warehouse-stocks/<int:pk> | Deleting a warehouse stock object |
+| 37 | GET | snrroko.pythonanywhere.com/api/products/store-stocks/ | Retrieving a list of all store stocks (Pagination and sorting implemented) |
+| 38 | GET | snrroko.pythonanywhere.com/api/products/store-stocks/?category=""&active=""&store=""&supplier=""&supplier=""&low-stock="" | (All Optional) query parameters for retrieving lists of store stocks based on the category, being active or not, low stocks and the particular store selling it as well as suppliers |
+| 39 | GET | snrroko.pythonanywhere.com/api/products/store-stocks/<int:pk> | Retrieving a single store stock resource |
+| 40 | GET | snrroko.pythonanywhere.com/api/products/store-stocks/barcode/<int:pk> | Retrieving a single store stock resource using a barcode |
+| 41 | POST | snrroko.pythonanywhere.com/api/products/store-stocks/ | Creating a new store stock object |
+| 42 | PUT | snrroko.pythonanywhere.com/api/products/store-stocks/<int:pk> | Updating a store stock object by sending full object |
+| 43 | PATCH | snrroko.pythonanywhere.com/api/products/store-stocks/<int:pk> | Updating a store stock object by sending just the updated field |
+| 44 | DELETE | snrroko.pythonanywhere.com/api/products/store-stocks/<int:pk> | Deleting a store stock object |
+| 45 | GET | snrroko.pythonanywhere.com/api/products/ | Retrieving a list of all products (Pagination and sorting implemented) |
+| 46 | GET | snrroko.pythonanywhere.com/api/products/?category=""&active=""&low-stock="" | (All Optional) query parameters for retrieving lists of store stocks based on the category, low stocks and being active or not |
+| 47 | GET | snrroko.pythonanywhere.com/api/products/<int:pk> | Retrieving a single product resource |
+| 48 | PATCH | snrroko.pythonanywhere.com/api/products/<int:pk> | Updating a product object by sending just the updated field |
+| 49 | DELETE | snrroko.pythonanywhere.com/api/products/<int:pk> | Deleting a store stock object |
+| 50 | GET | snrroko.pythonanywhere.com/api/products/categories/ | Retrieving a list of all product categories (Pagination and sorting implemented) |
+| 51 | GET | snrroko.pythonanywhere.com/api/products/categories/<int:pk> | Retrieving a single product category resource |
+| 52 | POST | snrroko.pythonanywhere.com/api/products/categories/ | Creating a new product category |
+| 53 | PUT | snrroko.pythonanywhere.com/api/products/categories/<int:pk> | Updating a product category by sending full object |
+| 54 | PATCH | snrroko.pythonanywhere.com/api/products/categories/<int:pk> | Updating a product category by sending just the updated field |
+| 55 | DELETE | snrroko.pythonanywhere.com/api/products/categories/<int:pk> | Deleting a product category object |
+| 56 | GET | snrroko.pythonanywhere.com/api/sales/customers/ | Retrieving a list of all customers (Pagination and sorting implemented) |
+| 57 | GET | snrroko.pythonanywhere.com/api/sales/customers/<int:pk> | Retrieving a single customer resource |
+| 58 | POST | snrroko.pythonanywhere.com/api/sales/customers/ | Creating a new customers resource |
+| 59 | PUT | snrroko.pythonanywhere.com/api/sales/customers/<int:pk> | Updating a customers resource by sending the whole object |
+| 60 | PATCH | snrroko.pythonanywhere.com/api/sales/customers/<int:pk> | Updating a single customer object by sending just the updated field |
+| 61 | DELETE | snrroko.pythonanywhere.com/api/sales/customers/<int:pk> | Deleting a customer object |
+| 62 | GET | snrroko.pythonanywhere.com/api/sales/orders/ | Retrieving a list of all orders (Pagination and sorting implemented) |
+| 63 | GET | snrroko.pythonanywhere.com/api/sales/orders/<int:pk> | Retrieving a single order resource |
+| 64 | GET | snrroko.pythonanywhere.com/api/sales/orders/?customer=""&date-from=""&date-to=""&status="" | Optional query parameters to filter lists of orders by customers, order dates and status |
+| 65 | POST | snrroko.pythonanywhere.com/api/sales/orders/ | Creating a new order resource |
+| 66 | PUT | snrroko.pythonanywhere.com/api/sales/orders/<int:pk> | Updating an order resource by sending the whole object |
+| 67 | PATCH | snrroko.pythonanywhere.com/api/sales/orders/<int:pk> | Updating a single order object by sending just the updated field |
+| 68 | DELETE | snrroko.pythonanywhere.com/api/sales/orders/<int:pk> | Deleting an order object |
+| 69 | GET | snrroko.pythonanywhere.com/api/sales/order-items/ | Retrieving a list of all order items (Pagination and sorting implemented) |
+| 70 | GET | snrroko.pythonanywhere.com/api/sales/order-items/<int:pk> | Retrieving a single order item resource |
+| 71 | GET | snrroko.pythonanywhere.com/api/sales/order-items/?customer=""&date-from=""&date-to=""&status=""&product=""&store="" | Optional query parameters to filter lists of orders by customers, order dates, status, product and store |
+| 72 | POST | snrroko.pythonanywhere.com/api/sales/order-items/ | Creating a new order item resource |
+| 73 | PUT | snrroko.pythonanywhere.com/api/sales/order-items/<int:pk> | Updating an order item resource by sending the whole object |
+| 74 | PATCH | snrroko.pythonanywhere.com/api/sales/order-items/<int:pk> | Updating a single order item object by sending just the updated field |
+| 75 | DELETE | snrroko.pythonanywhere.com/api/sales/order-items/<int:pk> | Deleting an order item object |
+| 76 | GET | snrroko.pythonanywhere.com/api/sales/stock-transfers/ | Retrieving a list of all stock transfers (Pagination and sorting implemented) |
+| 77 | GET | snrroko.pythonanywhere.com/api/sales/stock-transfers/<int:pk> | Retrieving a single stock transfer resource |
+| 78 | GET | snrroko.pythonanywhere.com/api/sales/stock-transfers/?warehouse=""&date-from=""&date-to=""&status=""&stock=""&store="" | Optional query parameters to filter lists of stock transfers by source, destination, status, product and date transferred |
+| 79 | POST | snrroko.pythonanywhere.com/api/sales/stock-transfers/ | Creating a new stock transfer resource |
+| 80 | PUT | snrroko.pythonanywhere.com/api/sales/stock-transfers/<int:pk> | Updating a stock transfer resource by sending the whole object |
+| 81 | PATCH | snrroko.pythonanywhere.com/api/sales/stock-transfers/<int:pk> | Updating a single stock transfer object by sending just the updated field |
+| 82 | DELETE | snrroko.pythonanywhere.com/api/sales/stock-transfers/<int:pk> | Deleting a stock transfer object |
 
 Here's a summary of the main endpoint categories:
 
