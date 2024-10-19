@@ -47,7 +47,7 @@ InventoryIQ is a comprehensive Inventory Management API built with Django and Dj
 
 ## Getting Started
 
-For detailed usage instructions and API documentation, please visit our live Swagger UI at [snrRoko.pythonanywhere.com/api/swagger-ui](https://snrRoko.pythonanywhere.com/api/swagger-ui).
+For detailed usage instructions and API documentation, please visit our live Swagger UI at [snrRoko.pythonanywhere.com/api/schema/swagger-ui](https://snrRoko.pythonanywhere.com/api/schema/swagger-ui).
 
 To request access or for any inquiries, please contact the project maintainer at [rbbagyei@outlook.com].
 
@@ -81,7 +81,7 @@ To request access or for any inquiries, please contact the project maintainer at
 
 ## API Endpoints
 
-For a comprehensive list of API endpoints and their documentation, please visit our Swagger UI at [snrRoko.pythonanywhere.com/api/swagger-ui](https://snrRoko.pythonanywhere.com/api/swagger-ui).
+For a comprehensive list of API endpoints and their documentation, please visit our Swagger UI at [snrRoko.pythonanywhere.com/api/schema/swagger-ui](https://snrRoko.pythonanywhere.com/api/schema/swagger-ui).
 
 Here's a summary of the main endpoint categories:
 
