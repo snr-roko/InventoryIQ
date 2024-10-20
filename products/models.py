@@ -32,7 +32,7 @@ class WarehouseStock(models.Model):
         unique_together = ("stock_code", "warehouse")
     
     def __str__(self):
-        return "{} at {}".format(self.product_code, self.warehouse)
+        return "{} at {}".format(self.stock_code, self.warehouse)
 
 class StoreStock(models.Model):
     name = models.CharField(max_length=255)
@@ -56,7 +56,7 @@ class StoreStock(models.Model):
         unique_together = ("stock_code", "store")
 
     def __str__(self):
-        return "{} at {}".format(self.product_code, self.store)
+        return "{} at {}".format(self.stock_code, self.store)
 
 class Product(models.Model):
     name = models.CharField(max_length=255)
